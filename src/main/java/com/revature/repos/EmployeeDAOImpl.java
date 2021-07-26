@@ -50,8 +50,25 @@ public class EmployeeDAOImpl  extends ConnectionUtil implements EmployeeDAO {
 		return users;
 	}
 	
+
 	public boolean addEmployee(Employee users) {
-		String command = "INSERT INTO ERS_Employee(ers_username, ers_password, user_first_name, "
+		String command = "INSERT INTO ERS_USERS(ers_username, ers_password) VALUES ('"
+					   + users.getErs_username() + "', '" + users.getErs_password() + "')";
+		try {
+			Connection conn = ConnectionUtil.establishConnection();
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate(command);
+		} catch (SQLException e) {
+			System.out.println("INSERT Query Fail: " + e.getMessage());
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/*
+	public boolean addEmployee(Employee users) {
+		String command = "INSERT INTO ERS_USERS(ers_username, ers_password, user_first_name, "
 					   + "user_last_name, user_email, user_role_id) VALUES ("
 					   + users.getErs_username() + ", " + users.getErs_password() + ", "
 					   + users.getUser_first_name() + ", " + users.getUser_last_name() + ", "
@@ -67,4 +84,5 @@ public class EmployeeDAOImpl  extends ConnectionUtil implements EmployeeDAO {
 		
 		return true;
 	}
+	*/
 }
