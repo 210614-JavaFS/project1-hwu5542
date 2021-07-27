@@ -9,4 +9,5 @@ public interface EmployeeDAO {
 	public List<Employee> findAll();
 	public Employee findEmployee(int users_id);
 	public boolean addEmployee(Employee users);
+	public String employeeLogin(Employee users);
 }

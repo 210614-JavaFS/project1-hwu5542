@@ -8,45 +8,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.models.Employee;
-import com.revature.models.Employee;
 import com.revature.utils.ConnectionUtil;
 
-public class EmployeeDAOImpl  extends ConnectionUtil implements EmployeeDAO {
-
+public class EmployeeDAOImpl extends ConnectionUtil implements EmployeeDAO {
+	
 	public List<Employee> findAll() {
-		return selectDB(0);
+		return getEmployeeList(0);
 	}
 	
 	public Employee findEmployee(int users_id) {
-		return selectDB(users_id).get(0);
+		return getEmployeeList(users_id).get(0);
 	}
 	
-	private List<Employee> selectDB(int users_id) {
+	private List<Employee> getEmployeeList(int users_id) {
 		
 		ArrayList<Employee> users = new ArrayList<Employee>();
 
 		String[] command = {"SELECT * FROM ERS_USERS",
 							"SELECT USER_ROLE FROM ERS_USER_ROLES WHERE ERS_USER_ROLE_ID = "};
-		ResultSet usersSet[] = new ResultSet[2];
-		
 		if (users_id > 0) {
 			command[0] += " WHERE ERS_USERS_ID = " + users_id;
 		}
-		
+
+		ResultSet usersSet[] = new ResultSet[2];
+		usersSet[0] = selectDB(command[0]);
+
 		try {
-			Connection conn = ConnectionUtil.establishConnection();
-			Statement stmt = conn.createStatement();
-			usersSet[0] = stmt.executeQuery(command[0]);
 			while (usersSet[0].next()) {
-				usersSet[1] =  stmt.executeQuery(command[1] + usersSet[0].getInt(7));
+				usersSet[1] =  selectDB(command[1] + usersSet[0].getInt(7));
 				users.add(new Employee(usersSet[0].getInt(1), usersSet[0].getString(2), usersSet[0].getString(3),
-						  usersSet[0].getString(4),	usersSet[0].getString(5), usersSet[0].getString(6),
-						  usersSet[0].getInt(7), usersSet[1].getString(1)));
+							usersSet[0].getString(4), usersSet[0].getString(5), usersSet[0].getString(6),
+							usersSet[0].getInt(7), usersSet[1].getString(1)));
 			}
 		} catch (SQLException e) {
-			System.out.println("SELECT Query Fail: " + e.getMessage());
+			System.err.println("Access Result Set Fail: " + e.getMessage());
 		}
-		
+
 		return users;
 	}
 	
@@ -54,16 +51,22 @@ public class EmployeeDAOImpl  extends ConnectionUtil implements EmployeeDAO {
 	public boolean addEmployee(Employee users) {
 		String command = "INSERT INTO ERS_USERS(ers_username, ers_password) VALUES ('"
 					   + users.getErs_username() + "', '" + users.getErs_password() + "')";
+		return insertDB(command);
+	}
+	
+	public String employeeLogin(Employee users) {
+		String command = "SELECT ers_password FROM ERS_USERS WHERE ers_username = '" + users.getErs_username() + "'";
+		ResultSet userPswd= selectDB(command);
 		try {
-			Connection conn = ConnectionUtil.establishConnection();
-			Statement stmt = conn.createStatement();
-			stmt.executeUpdate(command);
-		} catch (SQLException e) {
-			System.out.println("INSERT Query Fail: " + e.getMessage());
-			return false;
+			if (userPswd.next()) {
+				return userPswd.getString(1);
+			} else {
+				System.out.println("User not found.");
+			}
+		} catch(SQLException e) {
+			System.err.println("Access Result Set Fail: " + e.getMessage());
 		}
-		
-		return true;
+		return null;			
 	}
 	
 	/*

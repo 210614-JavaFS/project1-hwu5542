@@ -15,6 +15,28 @@ public class EmployeeController {
 	private ObjectMapper objectMapper = new ObjectMapper();
 	
 	public void addUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		Employee user = getJsonEmployee(request);
+		
+		if (employeeService.addEmployee(user)) {
+			response.setStatus(201);
+		} else {
+			response.setStatus(406);
+		}
+	}
+	
+	public void userLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		Employee user = getJsonEmployee(request);
+		
+		if (employeeService.employeeLogin(user)) {
+			response.setStatus(201);
+		} else {
+			response.setStatus(406);
+		}
+	}
+	
+	public Employee getJsonEmployee(HttpServletRequest request) throws IOException {
+		
 		BufferedReader reader = request.getReader();
 		
 		StringBuilder stringBuilder = new StringBuilder();
@@ -28,12 +50,6 @@ public class EmployeeController {
 		
 		String body = new String(stringBuilder);
 		
-		Employee user = objectMapper.readValue(body, Employee.class);
-		
-		if (employeeService.addEmployee(user)) {
-			response.setStatus(201);
-		} else {
-			response.setStatus(406);
-		}
+		return objectMapper.readValue(body, Employee.class);
 	}
 }

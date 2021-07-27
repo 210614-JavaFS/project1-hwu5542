@@ -1,12 +1,12 @@
 const URL = 'http://localhost:8080/project1/';
 
 let signUpButton = document.getElementById("signUpButton");
+let loginButton = document.getElementById("loginButton");
 
 signUpButton.onclick = signUp;
+loginButton.onclick = login;
 
-function getNewUser(){
-  let newUsername = document.getElementById("floatingUsername").value;
-  let newPassword = document.getElementById("floatingPassword").value;
+function getUserLogin(newUsername, newPassword){
   let newFirstName = "";
   let newLastName = "";
   let newEmail = "";
@@ -33,7 +33,10 @@ function getNewReimb(){
 
 async function signUp(){
   event.preventDefault();
-  let cred = getNewUser();
+
+  let newUsername = document.getElementById("floatingUsername").value;
+  let newPassword = document.getElementById("floatingPassword").value;
+  let cred = getUserLogin(newUsername, newPassword);
   let response = await fetch(URL + 'signUp', {
     method:'POST',
     body:JSON.stringify(cred)
@@ -42,6 +45,23 @@ async function signUp(){
     deleteLoginForm();
   } else {
     console.log("New user not added");
+  }
+}
+
+async function login(){
+  event.preventDefault();
+
+  let usrn = document.getElementById("LoginUsername").value;
+  let pswd = document.getElementById("LoginPassword").value;
+  let cred = getUserLogin(usrn, pswd);
+  let response = await fetch(URL + 'login', {
+    method:'POST',
+    body:JSON.stringify(cred)
+  });
+  if (response.status==201){
+    deleteLoginForm();
+  } else {
+    console.log("User login fail");
   }
 }
 

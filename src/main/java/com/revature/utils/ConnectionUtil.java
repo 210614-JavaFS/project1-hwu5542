@@ -2,7 +2,9 @@ package com.revature.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class ConnectionUtil {
 	protected static Connection establishConnection() {
@@ -18,6 +20,29 @@ public class ConnectionUtil {
 		} catch(SQLException q) {
 			System.out.println("Can't establish connection: "+q.getMessage());
 		}
+		return null;
+	}
+	
+	protected static boolean insertDB(String command) {
+		try {
+			Connection conn = ConnectionUtil.establishConnection();
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate(command);
+		} catch (SQLException e) {
+			System.out.println("INSERT Query Fail: " + e.getMessage());
+			return false;
+		}		
+		return true;
+	}
+	
+	protected static ResultSet selectDB(String command) {
+		try {
+			Connection conn = ConnectionUtil.establishConnection();
+			Statement stmt = conn.createStatement();
+			return stmt.executeQuery(command);
+		} catch (SQLException e) {
+			System.out.println("SELECT Query Fail: " + e.getMessage());
+		}		
 		return null;
 	}
 }

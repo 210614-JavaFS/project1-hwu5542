@@ -33,6 +33,12 @@ public class FrontControllerServlet extends HttpServlet {
 				}
 			}
 			break;
+		case "login":
+			if (urlSections.length == 1) {
+				if (request.getMethod().equals("POST")) {
+					employeeController.userLogin(request, response);
+				}
+			}
 		}
 	}
 	
