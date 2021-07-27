@@ -48,8 +48,8 @@
           </form>
           <div class="navbar-nav ml-auto">
             <div class="nav-item dropdown login-dropdown">
-              <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle"><i class="fa fa-user-o"></i> Login</a>
-              <div class="dropdown-menu">					
+              <a id="loginNavbarAnchor" href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle"><i class="fa fa-user-o"></i> Login</a>
+              <div id="loginNavbarMenu" class="dropdown-menu">					
                           <form class="form-inline login-form" action="" method="post">
                               <div class="input-group">
                                 <div class="input-group-prepend">
@@ -57,7 +57,7 @@
                                     <span class="fa fa-user"></span>
                                   </span>                    
                                 </div>
-                                <input type="text" class="form-control" placeholder="Username" required>
+                                <input type="text" class="form-control" id="LoginUsername" placeholder="Username" required>
                               </div>
                               <div class="input-group">
                                 <div class="input-group-prepend">
@@ -65,42 +65,43 @@
                                   <i class="fa fa-lock"></i>
                                   </span>                    
                                 </div>
-                                <input type="text" class="form-control" placeholder="Password" required>
+                                <input type="text" class="form-control" id="LoginPassword" placeholder="Password" autocomplete="on" required>
                               </div>
-                              <button type="submit" class="btn btn-primary">Login</button>
+                              <button id="loginButton" type="submit" class="btn btn-primary">Login</button>
                           </form>
-                      </div>
-                  </div>			
               </div>
+            </div>			
+          </div>
         </div>
       </nav>
-        <div class="container col-xl-10 col-xxl-8 px-4 py-5">
-            <div class="row align-items-center g-lg-5 py-5">
-              <div class="col-lg-7 text-center text-lg-start">
-                <h1 class="display-4 fw-bold lh-1 mb-3">Employee Reimbursment System</h1>
-                <p class="col-lg-10 fs-4">Welcome to Revature ERS. The ERS will manage the process of reimbursing employees for expenses incurred while on company time. New employee can sign up here.</p>
-              </div>
-              <div class="col-md-10 mx-auto col-lg-5">
-                <form class="p-4 p-md-5 border rounded-3 bg-light">
-                  <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="signUpUsername" placeholder="Username">
-                    <label for="floatingUsername">Username</label>
-                  </div>
-                  <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="signUpPassword" placeholder="Password">
-                    <label for="floatingPassword">Password</label>
-                  </div>
-                  <div class="checkbox mb-3">
-                    <label>
-                      <input type="checkbox" value="remember-me"> Remember me
-                    </label>
-                  </div>
-                  <button id="signUpButton" class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
-                  <hr class="my-4">
-                  <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
-                </form>
-              </div>
+        <div id="signUpPage" class="container col-xl-10 col-xxl-8 px-4 py-5">
+          <div class="row align-items-center g-lg-5 py-5">
+            <div class="col-lg-7 text-center text-lg-start">
+              <h1 class="display-4 fw-bold lh-1 mb-3">Employee Reimbursment System</h1>
+              <p class="col-lg-10 fs-4">Welcome to Revature ERS. The ERS will manage the process of reimbursing employees for expenses incurred while on company time. New employee can sign up here.</p>
+            </div>
+            <div class="col-md-10 mx-auto col-lg-5">
+              <form class="p-4 p-md-5 border rounded-3 bg-light">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="floatingUsername" placeholder="Username">
+                  <label for="floatingUsername">Username</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="password" class="form-control" id="floatingPassword" autocomplete="on" placeholder="Password">
+                  <label for="floatingPassword">Password</label>
+                </div>
+                <div class="checkbox mb-3">
+                  <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                  </label>
+                </div>
+                <button id="signUpButton" class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
+                <hr class="my-4">
+                <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
+              </form>
             </div>
           </div>
+        </div>
+        <script src="index.js"></script>
     </body>
 </html>

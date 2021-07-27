@@ -16,6 +16,6 @@
   <servlet-mapping>
   	<servlet-name>FrontControllerServlet</servlet-name>
   	<!-- We want everything that comes into the base URL to be handled by this one servlet. -->
-  	<url-pattern>/Front</url-pattern>
+  	<url-pattern>/</url-pattern>
   </servlet-mapping>
 </web-app>

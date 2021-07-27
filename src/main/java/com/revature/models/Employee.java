@@ -9,6 +9,10 @@ public class Employee {
 	private String user_email;
 	private int user_role_id;
 	private String user_role;
+	
+	public Employee() {
+		super();
+	}
 		
 	public Employee(int ers_users_id, String ers_username, String ers_password, String user_first_name,
 				String user_last_name, String user_email, int user_role_id, String user_role) {

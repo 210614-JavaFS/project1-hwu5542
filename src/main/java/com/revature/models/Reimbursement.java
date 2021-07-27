@@ -15,9 +15,14 @@ public class Reimbursement {
 	private String reimb_status;
 	private String reimb_type;
 		
+	public Reimbursement() {
+		super();
+	}
+	
 	public Reimbursement(int reimb_id, int reimb_amount, String reimb_submitted, String reimb_resolved,
 			String reimb_description, boolean reimb_receipt, int reimb_author, int reimb_resolver,
 			int reimb_status_id, int reimb_type_id, String reimb_status, String reimb_type) {
+		super();
 		this.reimb_id = reimb_id;
 		this.reimb_amount = reimb_amount;
 		this.reimb_submitted = reimb_submitted;
