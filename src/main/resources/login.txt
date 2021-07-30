@@ -1,3 +1,0 @@
-jdbc:postgresql://hwu5542-db.cxoqspxuezyw.us-east-2.rds.amazonaws.com:5432/ers
-postgres
-password
