@@ -1,6 +1,6 @@
 package com.revature.models;
 
-public class Reimbursement {
+public class Reimbursment {
 	
 	private int reimb_id;
 	private int reimb_amount;
@@ -15,11 +15,11 @@ public class Reimbursement {
 	private String reimb_status;
 	private String reimb_type;
 		
-	public Reimbursement() {
+	public Reimbursment() {
 		super();
 	}
 	
-	public Reimbursement(int reimb_id, int reimb_amount, String reimb_submitted, String reimb_resolved,
+	public Reimbursment(int reimb_id, int reimb_amount, String reimb_submitted, String reimb_resolved,
 			String reimb_description, boolean reimb_receipt, int reimb_author, int reimb_resolver,
 			int reimb_status_id, int reimb_type_id, String reimb_status, String reimb_type) {
 		super();

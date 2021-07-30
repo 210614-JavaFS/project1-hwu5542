@@ -7,27 +7,27 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.revature.models.Reimbursement;
+import com.revature.models.Reimbursment;
 import com.revature.utils.ConnectionUtil;
 
-public class ReimbursementDAOImpl extends ConnectionUtil implements ReimbursementDAO {
+public class ReimbursmentDAOImpl extends ConnectionUtil implements ReimbursmentDAO {
 
 
-	public List<Reimbursement> findAll() {
+	public List<Reimbursment> findAll() {
 		return selectDB(0);
 	}
 	
-	public Reimbursement findReimbursement(int reimb_id) {
+	public Reimbursment findReimbursment(int reimb_id) {
 		return selectDB(reimb_id).get(0);
 	}
 	
-	private List<Reimbursement> selectDB(int reimb_id) {
+	private List<Reimbursment> selectDB(int reimb_id) {
 		
-		ArrayList<Reimbursement> reimb = new ArrayList<Reimbursement>();
+		ArrayList<Reimbursment> reimb = new ArrayList<Reimbursment>();
 
-		String[] command = {"SELECT * FROM ERS_REIMBURSEMENT",
-							"SELECT REIMB_STATUS FROM ERS_REIMBURSEMENT_STATUS WHERE REIMB_STATUS_ID = ",
-							"SELECT REIMB_TYPE FROM ERS_REIMBURSEMENT_TYPE WHERE REIMB_TYPE_ID = "};
+		String[] command = {"SELECT * FROM ERS_Reimbursment",
+							"SELECT REIMB_STATUS FROM ERS_Reimbursment_STATUS WHERE REIMB_STATUS_ID = ",
+							"SELECT REIMB_TYPE FROM ERS_Reimbursment_TYPE WHERE REIMB_TYPE_ID = "};
 		ResultSet reimbSet[] = new ResultSet[3];
 		
 		if (reimb_id > 0) {
@@ -41,7 +41,7 @@ public class ReimbursementDAOImpl extends ConnectionUtil implements Reimbursemen
 			while (reimbSet[0].next()) {
 				reimbSet[1] =  stmt.executeQuery(command[1] + reimbSet[0].getInt(9));
 				reimbSet[2] =  stmt.executeQuery(command[2] + reimbSet[0].getInt(10));
-				reimb.add(new Reimbursement(reimbSet[0].getInt(1), reimbSet[0].getInt(2), reimbSet[0].getString(3),
+				reimb.add(new Reimbursment(reimbSet[0].getInt(1), reimbSet[0].getInt(2), reimbSet[0].getString(3),
 						  reimbSet[0].getString(4),	reimbSet[0].getString(5), reimbSet[0].getBoolean(6),
 						  reimbSet[0].getInt(7), reimbSet[0].getInt(8),	reimbSet[0].getInt(9), reimbSet[0].getInt(10),
 						  reimbSet[1].getString(1), reimbSet[2].getString(1)));
@@ -53,8 +53,8 @@ public class ReimbursementDAOImpl extends ConnectionUtil implements Reimbursemen
 		return reimb;
 	}
 	
-	public boolean addReimbursement(Reimbursement reimb) {
-		String command = "INSERT INTO ERS_REIMBURSEMENT(REIMB_AMMOUNT, REIMB_DESCRIPTION, REIMB_RECEIPT, REIMB_AUTHOR, "
+	public boolean addReimbursment(Reimbursment reimb) {
+		String command = "INSERT INTO ERS_Reimbursment(REIMB_AMMOUNT, REIMB_DESCRIPTION, REIMB_RECEIPT, REIMB_AUTHOR, "
 				+ "REIMB_RESULVER, REIMB_STATUS_ID, REIMB_TYPE_ID) VALUES ("
 				+ reimb.getReimb_amount() + ", " + reimb.getReimb_description() + ", " + reimb.getReimb_receipt() + ", "
 				+ reimb.getReimb_author() + ", " + reimb.getReimb_resolver() + ", " + reimb.getReimb_status_id() + ", "

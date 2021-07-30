@@ -15,13 +15,26 @@ public class EmployeeService {
 		return employeeDAO.findAll();
 	}
 	
-	public Employee getEmployee(int username) {
-		return employeeDAO.findEmployee(username);
+	public Employee getEmployee(String ers_username) {
+		return employeeDAO.findEmployee(ers_username);
 	}
 	
 	public boolean addEmployee(Employee employee) {
 		employee.setErs_password(passwordController.passwordHash(employee.getErs_password()));
+		if (employee.getErs_password().length()>200) {
+			System.out.println("Password Too Long");
+			return false;
+		}
 		return employeeDAO.addEmployee(employee);
+	}
+	
+	public boolean setEmployeeProfile(Employee employee) {
+		employee.setErs_password(passwordController.passwordHash(employee.getErs_password()));
+		if (employee.getErs_password().length()>200) {
+			System.out.println("Password Too Long");
+			return false;
+		}
+		return employeeDAO.addEmployeeProfile(employee);
 	}
 	
 	public boolean employeeLogin(Employee employee) {

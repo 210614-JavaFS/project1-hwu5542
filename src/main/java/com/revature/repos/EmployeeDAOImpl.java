@@ -13,21 +13,21 @@ import com.revature.utils.ConnectionUtil;
 public class EmployeeDAOImpl extends ConnectionUtil implements EmployeeDAO {
 	
 	public List<Employee> findAll() {
-		return getEmployeeList(0);
+		return getEmployeeList("");
 	}
 	
-	public Employee findEmployee(int users_id) {
-		return getEmployeeList(users_id).get(0);
+	public Employee findEmployee(String ers_username) {
+		return getEmployeeList(ers_username).get(0);
 	}
 	
-	private List<Employee> getEmployeeList(int users_id) {
+	private List<Employee> getEmployeeList(String ers_username) {
 		
 		ArrayList<Employee> users = new ArrayList<Employee>();
 
 		String[] command = {"SELECT * FROM ERS_USERS",
 							"SELECT USER_ROLE FROM ERS_USER_ROLES WHERE ERS_USER_ROLE_ID = "};
-		if (users_id > 0) {
-			command[0] += " WHERE ERS_USERS_ID = " + users_id;
+		if (ers_username != "") {
+			command[0] += " WHERE ERS_USERNAME = " + ers_username;
 		}
 
 		ResultSet usersSet[] = new ResultSet[2];
@@ -68,9 +68,9 @@ public class EmployeeDAOImpl extends ConnectionUtil implements EmployeeDAO {
 		}
 		return null;			
 	}
-	
-	/*
-	public boolean addEmployee(Employee users) {
+
+
+	public boolean addEmployeeProfile(Employee users) {
 		String command = "INSERT INTO ERS_USERS(ers_username, ers_password, user_first_name, "
 					   + "user_last_name, user_email, user_role_id) VALUES ("
 					   + users.getErs_username() + ", " + users.getErs_password() + ", "
@@ -87,5 +87,4 @@ public class EmployeeDAOImpl extends ConnectionUtil implements EmployeeDAO {
 		
 		return true;
 	}
-	*/
 }

@@ -8,12 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.revature.controllers.EmployeeController;
+import com.revature.controllers.ReimbursmentController;
 
 public class FrontControllerServlet extends HttpServlet {
 	EmployeeController employeeController = new EmployeeController();
+	ReimbursmentController reimbursmentController = new ReimbursmentController();
 	
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 					throws ServletException, IOException {
 		response.setContentType("application/json");
 		
@@ -27,24 +29,54 @@ public class FrontControllerServlet extends HttpServlet {
 		
 		switch(urlSections[0]) {
 		case "signUp":
+			if (request.getMethod().equals("POST")) {
+				employeeController.addUser(request, response);
+			}
+			break;
+
+		case "login":
+			if (request.getMethod().equals("POST")) {
+				employeeController.userLogin(request, response);
+			}
+			break;
+		
+		case "profile":
 			if (urlSections.length == 1) {
 				if (request.getMethod().equals("POST")) {
-					employeeController.addUser(request, response);
+					employeeController.getEmployeeProfile(request, response);
+				}
+			} else {
+				if (request.getMethod().equals("POST")) {
+					employeeController.setEmployeeProfile(request, response);
 				}
 			}
 			break;
-		case "login":
+		
+		case "logout":
+			if (request.getMethod().equals("POST")) {
+				employeeController.userLogout(request, response);
+			}
+			break;
+		
+		case "reimb":
 			if (urlSections.length == 1) {
-				if (request.getMethod().equals("POST")) {
-					employeeController.userLogin(request, response);
+				
+			} else {
+				if (urlSections[1].equals("summit")) {
+					reimbursmentController.summitRequest(request, response);
 				}
 			}
+			break;
+		case "employee":
+			break;
+		case "manager":
+			break;
 		}
 	}
 	
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doGet(request, response);
+		doPost(request, response);
 	}
 }
