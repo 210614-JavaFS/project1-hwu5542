@@ -6,7 +6,7 @@ let loginButton = document.getElementById("loginButton");
 signUpButton.onclick = signUp;
 loginButton.onclick = login;
 
-function getUserLogin(newUsername, newPassword){
+function getUserCred(newUsername, newPassword){
   let newFirstName = "";
   let newLastName = "";
   let newEmail = "";
@@ -25,18 +25,12 @@ function getUserLogin(newUsername, newPassword){
   return credential;
 }
 
-function getNewReimb(){
-  let reimb = {
-    abc:bcd
-  }
-}
-
 async function signUp(){
   event.preventDefault();
 
   let newUsername = document.getElementById("floatingUsername").value;
   let newPassword = document.getElementById("floatingPassword").value;
-  let cred = getUserLogin(newUsername, newPassword);
+  let cred = getUserCred(newUsername, newPassword);
   let response = await fetch(URL + 'signUp', {
     method:'POST',
     body:JSON.stringify(cred)
@@ -53,7 +47,7 @@ async function login(){
 
   let usrn = document.getElementById("LoginUsername").value;
   let pswd = document.getElementById("LoginPassword").value;
-  let cred = getUserLogin(usrn, pswd);
+  let cred = getUserCred(usrn, pswd);
   let response = await fetch(URL + 'login', {
     method:'POST',
     body:JSON.stringify(cred)
@@ -68,17 +62,9 @@ async function login(){
 function deleteLoginForm() {
   let loginForm = document.getElementById("signUpPage");
   loginForm.innerHTML = " ";
-//  loginForm = document.getElementById("loginNavbar");
-//  loginForm.setAttribute("class", "nav-item dropdown")
+
   loginForm = document.getElementById("loginNavbarAnchor");
   loginForm.innerHTML = " ";
-
-//  let profileAnchorNavbar = document.createElement("a");
-//  profileAnchorNavbar.setAttribute("href", "#");
-//  profileAnchorNavbar.setAttribute("class", "d-block link-dark text-decoration-none dropdown-toggle");  
-//  profileAnchorNavbar.setAttribute("id", "dropdownUser1");
-//  profileAnchorNavbar.setAttribute("data-bs-toggle", "dropdown");
-//  profileAnchorNavbar.setAttribute("aria-expanded", "false");
 
   let profileImgNavbar = document.createElement("img");
   profileImgNavbar.setAttribute("src", "https://github.com/mdo.png");
@@ -86,17 +72,16 @@ function deleteLoginForm() {
   profileImgNavbar.setAttribute("width", "32");
   profileImgNavbar.setAttribute("height", "32");
   profileImgNavbar.setAttribute("class", "rounded-circle");
-//  profileAnchorNavbar.appendChild(profileImgNavbar);
 
-//  loginForm.appendChild(profileAnchorNavbar);
   loginForm.appendChild(profileImgNavbar);
 
   loginForm = document.getElementById("loginNavbarMenu");
+  loginForm.style.width = "100px";
   loginForm.innerHTML = " ";
 
   let profileList1 = document.createElement("a");
   profileList1.setAttribute("class", "dropdown-item");
-  profileList1.setAttribute("href", "#");
+  profileList1.setAttribute("id", "profile");
   profileList1.innerHTML = "Profile";
   loginForm.appendChild(profileList1);
 
@@ -106,7 +91,7 @@ function deleteLoginForm() {
 
   let profileList3 = document.createElement("a");
   profileList3.setAttribute("class", "dropdown-item");
-  profileList3.setAttribute("href", "#");
+  profileList3.setAttribute("id", "signOut");
   profileList3.innerHTML = "Sign out";
   loginForm.appendChild(profileList3);
 }
