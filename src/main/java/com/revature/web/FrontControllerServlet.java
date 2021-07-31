@@ -8,11 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.revature.controllers.EmployeeController;
+import com.revature.controllers.FinanceManagerController;
 import com.revature.controllers.ReimbursmentController;
 
 public class FrontControllerServlet extends HttpServlet {
 	EmployeeController employeeController = new EmployeeController();
 	ReimbursmentController reimbursmentController = new ReimbursmentController();
+	FinanceManagerController financeManagerController = new FinanceManagerController();
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -26,51 +28,53 @@ public class FrontControllerServlet extends HttpServlet {
 		System.out.println(URL);
 		
 		String[] urlSections = URL.split("/");
-		
-		switch(urlSections[0]) {
-		case "signUp":
-			if (request.getMethod().equals("POST")) {
-				employeeController.addUser(request, response);
-			}
-			break;
 
-		case "login":
-			if (request.getMethod().equals("POST")) {
+		if (request.getMethod().equals("POST")) {
+
+			switch(urlSections[0]) {
+			case "signUp":
+				employeeController.addUser(request, response);
+				break;
+
+			case "login":
 				employeeController.userLogin(request, response);
-			}
-			break;
+				break;
 		
-		case "profile":
-			if (urlSections.length == 1) {
-				if (request.getMethod().equals("POST")) {
+			case "profile":
+				if (urlSections.length == 1) {
 					employeeController.getEmployeeProfile(request, response);
-				}
-			} else {
-				if (request.getMethod().equals("POST")) {
+				} else {
 					employeeController.setEmployeeProfile(request, response);
 				}
-			}
 			break;
 		
-		case "logout":
-			if (request.getMethod().equals("POST")) {
+			case "logout":
 				employeeController.userLogout(request, response);
-			}
 			break;
 		
-		case "reimb":
-			if (urlSections.length == 1) {
-				
-			} else {
-				if (urlSections[1].equals("summit")) {
-					reimbursmentController.summitRequest(request, response);
+			case "employee":
+				if (urlSections[1].equals("submit")) {
+					reimbursmentController.submitRequest(request, response);
+				} else if (urlSections[1].equals("pending")) {
+					reimbursmentController.pendingRequest(request, response);
+				} else if (urlSections[1].equals("past")) {
+					reimbursmentController.pastRequest(request, response);
 				}
+			break;
+
+			case "manager":
+				if (urlSections[1].equals("all")) {
+					financeManagerController.allRequest(request, response);
+				} else if (urlSections[1].equals("approve")) {
+					if (urlSections[2].equals("single")) {
+						financeManagerController.approveSingleRequest(request, response);
+						
+					} else if (urlSections[2].equals("all")) {
+						financeManagerController.approveAllRequest(request, response);						
+					}
+				}
+				break;
 			}
-			break;
-		case "employee":
-			break;
-		case "manager":
-			break;
 		}
 	}
 	

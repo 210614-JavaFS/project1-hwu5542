@@ -23,16 +23,20 @@ public class ConnectionUtil {
 		return null;
 	}
 	
-	protected static boolean insertDB(String command) {
+	protected static boolean updateDB(String command) {
 		try {
 			Connection conn = ConnectionUtil.establishConnection();
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate(command);
 		} catch (SQLException e) {
-			System.out.println("INSERT Query Fail: " + e.getMessage());
+			System.out.println("UPDATE Query Fail: " + e.getMessage());
 			return false;
 		}		
 		return true;
+	}
+	
+	protected static boolean insertDB(String command) {
+		return updateDB(command);
 	}
 	
 	protected static ResultSet selectDB(String command) {
