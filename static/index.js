@@ -6,6 +6,7 @@ let loginButton = document.getElementById("loginButton");
 signUpButton.onclick = signUp;
 loginButton.onclick = login;
 
+
 function getUserCred(newUsername, newPassword){
   let newFirstName = "";
   let newLastName = "";
@@ -94,4 +95,17 @@ function deleteLoginForm() {
   profileList3.setAttribute("id", "signOut");
   profileList3.innerHTML = "Sign out";
   loginForm.appendChild(profileList3);
+
+  let profileButton = document.getElementById("profile");
+  profileButton.onclick = profile;
+  let signOutButton = document.getElementById("signOut");
+  signOutButton.onclick = signOut;
+}
+
+function profile() {
+  document.getElementById("signUpPage").innerHTML='<object type="type/html" data="profile.html" ></object>';
+}
+
+function signOut() {
+  document.getElementById("signUpPage").innerHTML='<object type="type/html" data="profile.html" ></object>';
 }
