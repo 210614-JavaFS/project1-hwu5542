@@ -7,11 +7,7 @@ signUpButton.onclick = signUp;
 loginButton.onclick = login;
 
 
-function getUserCred(newUsername, newPassword){
-  let newFirstName = "";
-  let newLastName = "";
-  let newEmail = "";
-
+function getUserCred(newUsername, newPassword, newFirstName = "", newLastName = "", newEmail = ""){
   let credential = {
 	ers_users_id:0,
 	ers_username:newUsername,
@@ -68,15 +64,7 @@ async function signOut() {
 }
 
 async function profile() {
-  let response = await fetch(URL + 'profile', {
-    method:'POST'
-  });
-  if (response.status==201){
-    let profileInfo = await response.json();
     window.location.replace('http://localhost:8080/static/profile.html');
-  } else {
-    console.log("Get User Profile Fail");
-  }
 }
 
 function deleteLoginForm() {

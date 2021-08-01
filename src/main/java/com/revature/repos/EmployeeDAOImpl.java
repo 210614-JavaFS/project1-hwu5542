@@ -38,8 +38,8 @@ public class EmployeeDAOImpl extends ConnectionUtil implements EmployeeDAO {
 				usersSet[1] =  selectDB(command[1] + usersSet[0].getInt(7));
 				usersSet[1].next();
 				users.add(new Employee(usersSet[0].getInt(1), usersSet[0].getString(2), usersSet[0].getString(3),
-							usersSet[0].getString(4), usersSet[0].getString(5), usersSet[0].getString(6),
-							usersSet[0].getInt(7), usersSet[1].getString(1)));
+							(usersSet[0].getString(4) == null?"N/A":usersSet[0].getString(4)), (usersSet[0].getString(5) == null?"N/A":usersSet[0].getString(5)),
+							(usersSet[0].getString(6) == null?"N/A":usersSet[0].getString(6)), usersSet[0].getInt(7), usersSet[1].getString(1)));
 			}
 		} catch (SQLException e) {
 			System.err.println("Access Result Set Fail: " + e.getMessage());
@@ -72,17 +72,16 @@ public class EmployeeDAOImpl extends ConnectionUtil implements EmployeeDAO {
 
 
 	public boolean addEmployeeProfile(Employee users) {
-		String command = "INSERT INTO ERS_USERS(ers_username, ers_password, user_first_name, "
-					   + "user_last_name, user_email, user_role_id) VALUES ("
-					   + users.getErs_username() + ", " + users.getErs_password() + ", "
-					   + users.getUser_first_name() + ", " + users.getUser_last_name() + ", "
-					   + users.getUser_email() + ", " + users.getUser_role_id() + ")";
+		String command = "UPDATE ERS_USERS SET ers_password = '" + users.getErs_password() + "', user_first_name = '"
+		               + users.getUser_first_name() + "', user_last_name = '" + users.getUser_last_name() + "', user_email = '"
+					   + users.getUser_email() + "' WHERE ers_username = '" + users.getErs_username() + "'";
+		System.out.println(command);
 		try {
 			Connection conn = ConnectionUtil.establishConnection();
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate(command);
 		} catch (SQLException e) {
-			System.out.println("INSERT Query Fail: " + e.getMessage());
+			System.out.println("UPDATE Query Fail: " + e.getMessage());
 			return false;
 		}
 		

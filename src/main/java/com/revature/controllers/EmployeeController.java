@@ -31,7 +31,14 @@ public class EmployeeController {
 	
 	public void setEmployeeProfile(HttpServletRequest request, HttpServletResponse response){
 		
+		HttpSession session = request.getSession();
 		Employee user = getJsonEmployee(request);
+		if (user == null) {
+			response.setStatus(406);
+			return;
+		}
+		
+		user.setErs_username(session.getAttribute("ers_username").toString());
 		
 		if (employeeService.setEmployeeProfile(user)) {
 			response.setStatus(201);
