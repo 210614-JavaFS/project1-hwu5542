@@ -37,8 +37,10 @@ public class EmployeeService {
 		return employeeDAO.addEmployeeProfile(employee);
 	}
 	
-	public boolean employeeLogin(Employee employee) {
+	public Employee employeeLogin(Employee employee) {
 		String password = employeeDAO.employeeLogin(employee);
-		return passwordController.validatePassword(employee.getErs_password(), password);
+		if (passwordController.validatePassword(employee.getErs_password(), password))
+			return (employeeDAO.findEmployee(employee.getErs_username()));
+		return null;
 	}
 }

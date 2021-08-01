@@ -75,7 +75,6 @@ public class EmployeeDAOImpl extends ConnectionUtil implements EmployeeDAO {
 		String command = "UPDATE ERS_USERS SET ers_password = '" + users.getErs_password() + "', user_first_name = '"
 		               + users.getUser_first_name() + "', user_last_name = '" + users.getUser_last_name() + "', user_email = '"
 					   + users.getUser_email() + "' WHERE ers_username = '" + users.getErs_username() + "'";
-		System.out.println(command);
 		try {
 			Connection conn = ConnectionUtil.establishConnection();
 			Statement stmt = conn.createStatement();

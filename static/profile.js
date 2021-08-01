@@ -1,8 +1,10 @@
 const URL = 'http://localhost:8080/project1/';
 
 let editProfileButton = document.getElementById("editProfileButton");
+let signOutButton = document.getElementById("signOut");
 
 editProfileButton.onclick = checkPassword;
+signOutButton.onclick = signOut;
 
 async function printProfile() {
     let response = await fetch(URL + 'profile', {
@@ -46,6 +48,13 @@ async function editProfile() {
     } else {
        console.log("New user not added");
     }
+}
+
+async function signOut() {
+  let response = await fetch(URL + 'signOut', {
+    method:'POST'
+  });
+  window.location.replace('http://localhost:8080/static/index.html');
 }
 
 function getUserCred(newPassword, newFirstName, newLastName, newEmail){

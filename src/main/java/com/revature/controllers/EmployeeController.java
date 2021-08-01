@@ -60,12 +60,15 @@ public class EmployeeController {
 		}
 	}
 	
-	public void userLogin(HttpServletRequest request, HttpServletResponse response){
+	public void userLogin(HttpServletRequest request, HttpServletResponse response)  throws IOException {
 		Employee user = getJsonEmployee(request);
-		
-		if (employeeService.employeeLogin(user)) {
+		user = employeeService.employeeLogin(user);
+		if (user != null) {
 			HttpSession session = request.getSession();
 			session.setAttribute("ers_username", user.getErs_username());
+			session.setAttribute("user_role", user.getErs_username());
+			String json = objectMapper.writeValueAsString(user);
+			response.getWriter().print(json);
 			response.setStatus(201);
 		} else {
 			response.setStatus(406);

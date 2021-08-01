@@ -34,6 +34,7 @@ async function signUp(){
   });
   if (response.status==201){
     deleteLoginForm();
+    document.getElementById("registerPrompt").innerHTML = "Please update your profile as soon as possible."
   } else {
     console.log("New user not added");
   }
@@ -51,6 +52,8 @@ async function login(){
   });
   if (response.status==201){
     deleteLoginForm();
+    let profileInfo = await response.json();
+    document.getElementById("registerPrompt").innerHTML = profileInfo.user_role + " " + profileInfo.user_first_name + ", " + "please use the navbar to perform your desired actions.";
   } else {
     console.log("User login fail");
   }
