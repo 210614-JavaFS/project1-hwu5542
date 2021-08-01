@@ -16,7 +16,7 @@ public class EmployeeController {
 	private static ObjectMapper objectMapper = new ObjectMapper();
 	
 	public void getEmployeeProfile(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
 		
 		Employee user = employeeService.getEmployee(session.getAttribute("ers_username").toString());
 		
@@ -31,7 +31,7 @@ public class EmployeeController {
 	
 	public void setEmployeeProfile(HttpServletRequest request, HttpServletResponse response){
 		
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
 		Employee user = getJsonEmployee(request);
 		if (user == null) {
 			response.setStatus(406);
@@ -52,8 +52,9 @@ public class EmployeeController {
 		Employee user = getJsonEmployee(request);
 		
 		if (employeeService.addEmployee(user)) {
-			HttpSession session = request.getSession();
+			HttpSession session = request.getSession(true);
 			session.setAttribute("ers_username", user.getErs_username());
+			session.setAttribute("user_role", "Employee");
 			response.setStatus(201);
 		} else {
 			response.setStatus(406);
@@ -64,7 +65,7 @@ public class EmployeeController {
 		Employee user = getJsonEmployee(request);
 		user = employeeService.employeeLogin(user);
 		if (user != null) {
-			HttpSession session = request.getSession();
+			HttpSession session = request.getSession(true);
 			session.setAttribute("ers_username", user.getErs_username());
 			session.setAttribute("user_role", user.getErs_username());
 			String json = objectMapper.writeValueAsString(user);
@@ -75,8 +76,21 @@ public class EmployeeController {
 		}
 	}
 	
+	public void userAutoLogin(HttpServletRequest request, HttpServletResponse response)  throws IOException {
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			Employee user = new Employee();
+			user.setErs_username(session.getAttribute("ers_username").toString());
+			user.setUser_role(session.getAttribute("user_role").toString());
+			String json = objectMapper.writeValueAsString(user);
+			response.getWriter().print(json);
+			response.setStatus(201);
+		}
+	}
+	
 	public void userLogout(HttpServletRequest request, HttpServletResponse response){
-		request.getSession().invalidate();
+		HttpSession session = request.getSession(false);
+		if (session != null) session.invalidate();
 		response.setStatus(404);
 	}
 	

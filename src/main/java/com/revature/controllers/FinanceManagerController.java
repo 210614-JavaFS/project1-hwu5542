@@ -24,7 +24,7 @@ public class FinanceManagerController extends ReimbursmentController {
 	}
 	
 	public void approveAllRequest(HttpServletRequest request, HttpServletResponse response) {
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
 		String ers_username = session.getAttribute("ers_username").toString();
 		String status = session.getAttribute("reimb_status").toString();
 
@@ -36,7 +36,7 @@ public class FinanceManagerController extends ReimbursmentController {
 	}
 	
 	public void approveSingleRequest(HttpServletRequest request, HttpServletResponse response) {
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
 		String ers_username = session.getAttribute("ers_username").toString();
 		String status = session.getAttribute("reimb_status").toString();
 		Reimbursment targetReimb = getJsonReimbursment(request);

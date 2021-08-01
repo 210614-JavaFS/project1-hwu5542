@@ -6,7 +6,6 @@ let loginButton = document.getElementById("loginButton");
 signUpButton.onclick = signUp;
 loginButton.onclick = login;
 
-
 function getUserCred(newUsername, newPassword, newFirstName = "", newLastName = "", newEmail = ""){
   let credential = {
 	ers_users_id:0,
@@ -38,6 +37,22 @@ async function signUp(){
     employeeService();
   } else {
     console.log("New user not added");
+  }
+}
+
+async function autoLogin(){
+  let response = await fetch(URL + 'login/auto', {
+    method:'POST'
+  })
+  if (response.status==201){
+    deleteLoginForm();
+    let profileInfo = await response.json();
+    document.getElementById("registerPrompt").innerHTML = profileInfo.user_role + " " + profileInfo.user_first_name + ", " + "please use the navbar to perform your desired actions.";
+    if (profileInfo.user_role == "Manager") {
+      managerService();
+    } else {
+      employeeService();
+    }
   }
 }
 
@@ -203,3 +218,5 @@ function viewPendingRequest(){
 function submitNewRequest(){
 
 }
+
+autoLogin();

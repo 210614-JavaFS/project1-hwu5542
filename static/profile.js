@@ -2,9 +2,11 @@ const URL = 'http://localhost:8080/project1/';
 
 let editProfileButton = document.getElementById("editProfileButton");
 let signOutButton = document.getElementById("signOut");
+let backHomeButton = document.getElementById("backToHome");
 
 editProfileButton.onclick = checkPassword;
 signOutButton.onclick = signOut;
+backHomeButton.onclick = backToHome;
 
 async function printProfile() {
     let response = await fetch(URL + 'profile', {

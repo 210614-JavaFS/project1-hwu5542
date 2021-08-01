@@ -37,7 +37,11 @@ public class FrontControllerServlet extends HttpServlet {
 				break;
 
 			case "login":
-				employeeController.userLogin(request, response);
+				if (urlSections.length == 1) {
+					employeeController.userLogin(request, response);
+				} else {
+					employeeController.userAutoLogin(request, response);
+				}
 				break;
 		
 			case "profile":
