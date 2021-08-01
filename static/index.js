@@ -35,6 +35,7 @@ async function signUp(){
   if (response.status==201){
     deleteLoginForm();
     document.getElementById("registerPrompt").innerHTML = "Please update your profile as soon as possible."
+    employeeService();
   } else {
     console.log("New user not added");
   }
@@ -130,13 +131,20 @@ async function managerService() {
   managerServList.setAttribute("class", "dropdown-menu");
   let managerServList1 = document.createElement("a");
   managerServList1.setAttribute("class", "dropdown-item");
+  managerServList1.setAttribute("id", "viewAllRequest");
   managerServList1.innerHTML = "View All Request";
   let managerServList2 = document.createElement("a");
   managerServList2.setAttribute("class", "dropdown-item");
+  managerServList1.setAttribute("id", "processRequest");
   managerServList2.innerHTML = "Process Request";
   managerServList.appendChild(managerServList1);
   managerServList.appendChild(managerServList2);
   navbarService.appendChild(managerServList);
+
+  let viewAllRequestButton = document.getElementById("viewAllRequest");
+  viewAllRequestButton.onclick = viewAllRequest();
+  let processRequestButton = document.getElementById("processRequest");
+  processRequestButton.onclick = processRequest();
 }
 
 async function employeeService() {
@@ -153,14 +161,45 @@ async function employeeService() {
   let managerServList1 = document.createElement("a");
   managerServList1.setAttribute("class", "dropdown-item");
   managerServList1.innerHTML = "View Past Tickets";
+  managerServList1.setAttribute("id", "viewPastTickets");
   let managerServList2 = document.createElement("a");
   managerServList2.setAttribute("class", "dropdown-item");
+  managerServList1.setAttribute("id", "viewPendingRequest");
   managerServList2.innerHTML = "View Pending Request";
   let managerServList3 = document.createElement("a");
   managerServList3.setAttribute("class", "dropdown-item");
+  managerServList1.setAttribute("id", "submitNewRequest");
   managerServList3.innerHTML = "Submit New Request";
   managerServList.appendChild(managerServList1);
   managerServList.appendChild(managerServList2);
   managerServList.appendChild(managerServList3);
   navbarService.appendChild(managerServList);
+
+  let viewPastTicketsButton = document.getElementById("viewPastTickets");
+  viewPastTicketsButton.onclick = viewPastTickets();
+  let viewPendingRequestButton = document.getElementById("viewPendingRequest");
+  viewPendingRequestButton.onclick = viewPendingRequest();
+  let submitNewRequestButton = document.getElementById("submitNewRequest");
+  submitNewRequestButton.onclick = submitNewRequest();
+}
+
+function viewAllRequest(){
+
+}
+
+function processRequest(){
+
+}
+
+
+function viewPastTickets(){
+
+}
+
+function viewPendingRequest(){
+
+}
+
+function submitNewRequest(){
+
 }
