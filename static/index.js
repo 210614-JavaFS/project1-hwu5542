@@ -47,7 +47,7 @@ async function autoLogin(){
   if (response.status==201){
     deleteLoginForm();
     let profileInfo = await response.json();
-    document.getElementById("registerPrompt").innerHTML = profileInfo.user_role + " " + profileInfo.user_first_name + ", " + "please use the navbar to perform your desired actions.";
+    document.getElementById("registerPrompt").innerHTML = profileInfo.user_role + " " + profileInfo.ers_username + ", " + "please use the navbar to perform your desired actions.";
     if (profileInfo.user_role == "Manager") {
       managerService();
     } else {

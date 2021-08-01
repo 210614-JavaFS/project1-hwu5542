@@ -67,7 +67,7 @@ public class EmployeeController {
 		if (user != null) {
 			HttpSession session = request.getSession(true);
 			session.setAttribute("ers_username", user.getErs_username());
-			session.setAttribute("user_role", user.getErs_username());
+			session.setAttribute("user_role", user.getUser_role());
 			String json = objectMapper.writeValueAsString(user);
 			response.getWriter().print(json);
 			response.setStatus(201);
