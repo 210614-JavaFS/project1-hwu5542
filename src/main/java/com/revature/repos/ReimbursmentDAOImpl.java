@@ -28,9 +28,9 @@ public class ReimbursmentDAOImpl extends ConnectionUtil implements ReimbursmentD
 		
 		ArrayList<Reimbursment> reimb = new ArrayList<Reimbursment>();
 
-		String[] command = {"SELECT * FROM ERS_Reimbursment",
-							"SELECT REIMB_STATUS FROM ERS_Reimbursment_STATUS WHERE REIMB_STATUS_ID = ",
-							"SELECT REIMB_TYPE FROM ERS_Reimbursment_TYPE WHERE REIMB_TYPE_ID = "};
+		String[] command = {"SELECT * FROM ERS_REIMBURSMENT",
+							"SELECT REIMB_STATUS FROM ERS_REIMBURSMENT_STATUS WHERE REIMB_STATUS_ID = ",
+							"SELECT REIMB_TYPE FROM ERS_REIMBURSMENT_TYPE WHERE REIMB_TYPE_ID = "};
 		ResultSet reimbSet[] = new ResultSet[3];
 		
 		if (!subCommand.equals("")) {
@@ -40,6 +40,7 @@ public class ReimbursmentDAOImpl extends ConnectionUtil implements ReimbursmentD
 		command[0] += " ORDER BY REIMB_SUBMITTED";
 		
 		try {
+			System.out.println(command[0]);
 			reimbSet[0] = selectDB(command[0]);
 			while (reimbSet[0].next()) {
 				reimbSet[1] =  selectDB(command[1] + reimbSet[0].getInt(9));
@@ -83,7 +84,7 @@ public class ReimbursmentDAOImpl extends ConnectionUtil implements ReimbursmentD
 	}
 	
 	public boolean addReimbursment(Reimbursment reimb) {
-		String command = "INSERT INTO ERS_Reimbursment(REIMB_AMMOUNT, REIMB_DESCRIPTION, REIMB_RECEIPT, REIMB_AUTHOR, "
+		String command = "INSERT INTO ERS_REIMBURSMENT(REIMB_AMMOUNT, REIMB_DESCRIPTION, REIMB_RECEIPT, REIMB_AUTHOR, "
 				+ "REIMB_RESULVER, REIMB_STATUS_ID, REIMB_TYPE_ID) VALUES ("
 				+ reimb.getReimb_amount() + ", '" + reimb.getReimb_description() + "', " + reimb.getReimb_receipt() + ", "
 				+ reimb.getReimb_author() + ", " + reimb.getReimb_resolver() + ", " + reimb.getReimb_status_id() + ", "
