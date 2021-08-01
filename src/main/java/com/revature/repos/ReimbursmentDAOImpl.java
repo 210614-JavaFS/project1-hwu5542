@@ -29,9 +29,10 @@ public class ReimbursmentDAOImpl extends ConnectionUtil implements ReimbursmentD
 		ArrayList<Reimbursment> reimb = new ArrayList<Reimbursment>();
 
 		String[] command = {"SELECT * FROM ERS_REIMBURSMENT",
+							"SELECT ERS_USERNAME FROM ERS_USERS WHERE ERS_USERS_ID = ",
 							"SELECT REIMB_STATUS FROM ERS_REIMBURSMENT_STATUS WHERE REIMB_STATUS_ID = ",
 							"SELECT REIMB_TYPE FROM ERS_REIMBURSMENT_TYPE WHERE REIMB_TYPE_ID = "};
-		ResultSet reimbSet[] = new ResultSet[3];
+		ResultSet reimbSet[] = new ResultSet[5];
 		
 		if (!subCommand.equals("")) {
 			command[0] += subCommand;
@@ -40,15 +41,18 @@ public class ReimbursmentDAOImpl extends ConnectionUtil implements ReimbursmentD
 		command[0] += " ORDER BY REIMB_SUBMITTED";
 		
 		try {
-			System.out.println(command[0]);
 			reimbSet[0] = selectDB(command[0]);
 			while (reimbSet[0].next()) {
-				reimbSet[1] =  selectDB(command[1] + reimbSet[0].getInt(9));
-				reimbSet[2] =  selectDB(command[2] + reimbSet[0].getInt(10));
+				reimbSet[1] = selectDB(command[1] + reimbSet[0].getInt(7));
+				reimbSet[2] = selectDB(command[1] + reimbSet[0].getInt(8));
+				reimbSet[3] = selectDB(command[2] + reimbSet[0].getInt(9));
+				reimbSet[4] = selectDB(command[3] + reimbSet[0].getInt(10));
+				for (int i=1; i<5; i++) reimbSet[i].next();
+
 				reimb.add(new Reimbursment(reimbSet[0].getInt(1), reimbSet[0].getInt(2), reimbSet[0].getString(3),
 						  reimbSet[0].getString(4),	reimbSet[0].getString(5), reimbSet[0].getBoolean(6),
 						  reimbSet[0].getInt(7), reimbSet[0].getInt(8),	reimbSet[0].getInt(9), reimbSet[0].getInt(10),
-						  reimbSet[1].getString(1), reimbSet[2].getString(1)));
+						  reimbSet[1].getString(1), reimbSet[2].getString(1), reimbSet[3].getString(1), reimbSet[4].getString(1)));
 			}
 		} catch (SQLException e) {
 			System.out.println("SELECT Query Fail: " + e.getMessage());
@@ -85,7 +89,7 @@ public class ReimbursmentDAOImpl extends ConnectionUtil implements ReimbursmentD
 	
 	public boolean addReimbursment(Reimbursment reimb) {
 		String command = "INSERT INTO ERS_REIMBURSMENT(REIMB_AMMOUNT, REIMB_DESCRIPTION, REIMB_RECEIPT, REIMB_AUTHOR, "
-				+ "REIMB_RESULVER, REIMB_STATUS_ID, REIMB_TYPE_ID) VALUES ("
+				+ "REIMB_RESOLVER, REIMB_STATUS_ID, REIMB_TYPE_ID) VALUES ("
 				+ reimb.getReimb_amount() + ", '" + reimb.getReimb_description() + "', " + reimb.getReimb_receipt() + ", "
 				+ reimb.getReimb_author() + ", " + reimb.getReimb_resolver() + ", " + reimb.getReimb_status_id() + ", "
 				+ reimb.getReimb_type_id() + ")";
