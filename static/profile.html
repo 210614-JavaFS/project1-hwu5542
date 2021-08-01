@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Profile</title>
+      
+      <link rel="stylesheet" href="https://getbootstrap.com/docs/5.0/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="index.css">
+      <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>  </head>
+<body>
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a href="http://localhost:8080/static/index.html" class="navbar-brand">Revature<b>ERS</b></a>  		
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- Collection of nav links, forms, and other content for toggling -->
+        <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+          <div class="navbar-nav">
+            <a href="http://localhost:8080/static/index.html" class="nav-item nav-link">Home</a>
+            <div class="nav-item dropdown">
+              <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle">Services</a>
+              <div class="dropdown-menu">					
+                <a href="#" class="dropdown-item">Web Design</a>
+                <a href="#" class="dropdown-item">Web Development</a>
+              </div>
+            </div>
+            <a href="#" class="nav-item nav-link">Contact</a>
+          </div>
+          <form class="navbar-form form-inline search-form">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search...">
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default"><i class="fa fa-search"></i></button>
+              </span>
+            </div>
+          </form>
+          <div class="navbar-nav ml-auto">
+            <div class="nav-item dropdown login-dropdown">
+                <a id="loginNavbarAnchor" href="" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle">
+                    <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                </a>
+                <div id="loginNavbarMenu" class="dropdown-menu" style="width: 100px;">
+                    <a class="dropdown-item" id="profile">Profile</a>
+                    <hr class="dropdown-divider">
+                    <a class="dropdown-item" id="signOut">Sign out</a>  
+                </div>
+              </div>		
+          </div>
+        </div>
+      </nav>
+  <div class="container bootstrap snippet container col-xl-10 col-xxl-8 px-4 py-5">
+      <div class="row">
+            <div class="col-sm-10"><h1>User name</h1></div>
+      </div>
+      <div class="row">
+            <div class="col-sm-3"><!--left col-->
+            <br>
+            <ul class="list-group">
+              <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
+              <li class="list-group-item text-right"><span class="pull-left"><strong>Requests</strong></span> 125</li>
+              <li class="list-group-item text-right"><span class="pull-left"><strong>Pending</strong></span> 125</li>
+            </ul> 
+                 
+            </div><!--/col-3-->
+
+            <div class="col-sm-9">
+                <ul class="nav nav-tabs">
+                  <li class="nav-item active"><button class="nav-link" data-toggle="tab" href="#profile" type="button">Your Profile</button></li>
+                  <li class="nav-item"><button class="nav-link" data-toggle="tab" href="#editProfile" type="button">Edit Profile</button></li>
+                </ul>
+  
+                
+            <div class="tab-content">
+              <div class="tab-pane active" id="profile">
+                  <hr>
+                        <div class="col-xs-6">
+                            <label for="first_name"><h4>First name</h4></label>
+                            <p type="text" name="first_name" id="first_name" title="enter your first name if any."/>
+                        </div>
+                        <div class="col-xs-6">
+                            <label for="last_name"><h4>Last name</h4></label>
+                            <p type="text" name="last_name" id="last_name" title="enter your last name if any."/>
+                        </div>
+
+                        <div class="col-xs-6">
+                            <label for="email"><h4>Email</h4></label>
+                            <p type="email" name="email" id="email" title="enter your email."/>
+                        </div>
+                        <div class="col-xs-6">
+                            <label for="email"><h4>Location</h4></label>
+                            <p type="email" id="location" placeholder="somewhere" title="enter a location"/>
+                        </div>
+                        <div class="col-xs-6">
+                            <label for="password"><h4>Password</h4></label>
+                            <p type="password" name="password" id="password" title="enter your password."/>
+                        </div>
+                        <div class="col-xs-6">
+                            <label for="password2"><h4>Verify</h4></label>
+                            <p type="password" name="password2" id="password2" title="enter your password2."/>
+                        </div>
+                <hr>
+                
+               </div><!--/tab-pane-->
+               <div class="tab-pane" id="editProfile">
+                 
+                 <h2></h2>
+                 
+                 <hr>
+                    <form class="form" action="##" method="post" id="registrationForm">
+                        <div class="form-group">
+                            
+                            <div class="col-xs-6">
+                                <label for="first_name"><h4>First name</h4></label>
+                                <input type="text" class="form-control" name="first_name" id="first_name" placeholder="first name" title="enter your first name if any.">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            
+                            <div class="col-xs-6">
+                              <label for="last_name"><h4>Last name</h4></label>
+                                <input type="text" class="form-control" name="last_name" id="last_name" placeholder="last name" title="enter your last name if any.">
+                            </div>
+                        </div>
+            
+                        <div class="form-group">
+                            
+                            <div class="col-xs-6">
+                                <label for="email"><h4>Email</h4></label>
+                                <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com" title="enter your email.">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            
+                            <div class="col-xs-6">
+                                <label for="email"><h4>Location</h4></label>
+                                <input type="email" class="form-control" id="location" placeholder="somewhere" title="enter a location">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            
+                            <div class="col-xs-6">
+                                <label for="password"><h4>Password</h4></label>
+                                <input type="password" class="form-control" name="password" id="password" placeholder="password" title="enter your password.">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            
+                            <div class="col-xs-6">
+                              <label for="password2"><h4>Verify</h4></label>
+                                <input type="password" class="form-control" name="password2" id="password2" placeholder="password2" title="enter your password2.">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                             <div class="col-xs-12">
+                                  <br>
+                                    <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
+                                     <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
+                              </div>
+                        </div>
+                    </form>
+               </div><!--/tab-pane-->
+                </div><!--/tab-pane-->
+            </div><!--/tab-content-->
+  
+          </div><!--/col-9-->
+      </div><!--/row-->
+</body>

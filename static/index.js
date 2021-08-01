@@ -60,6 +60,25 @@ async function login(){
   }
 }
 
+async function signOut() {
+  let response = await fetch(URL + 'signOut', {
+    method:'POST'
+  });
+  window.location.replace('http://localhost:8080/static/index.html');
+}
+
+async function profile() {
+  let response = await fetch(URL + 'profile', {
+    method:'POST'
+  });
+  if (response.status==201){
+    let profileInfo = await response.json();
+    window.location.replace('http://localhost:8080/static/profile.html');
+  } else {
+    console.log("Get User Profile Fail");
+  }
+}
+
 function deleteLoginForm() {
   let loginForm = document.getElementById("signUpPage");
   loginForm.innerHTML = " ";
@@ -100,12 +119,4 @@ function deleteLoginForm() {
   profileButton.onclick = profile;
   let signOutButton = document.getElementById("signOut");
   signOutButton.onclick = signOut;
-}
-
-function profile() {
-  document.getElementById("signUpPage").innerHTML='<object type="type/html" data="profile.html" ></object>';
-}
-
-function signOut() {
-  document.getElementById("signUpPage").innerHTML='<object type="type/html" data="profile.html" ></object>';
 }

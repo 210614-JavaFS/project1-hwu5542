@@ -27,7 +27,7 @@ public class EmployeeDAOImpl extends ConnectionUtil implements EmployeeDAO {
 		String[] command = {"SELECT * FROM ERS_USERS",
 							"SELECT USER_ROLE FROM ERS_USER_ROLES WHERE ERS_USER_ROLE_ID = "};
 		if (ers_username != "") {
-			command[0] += " WHERE ERS_USERNAME = " + ers_username;
+			command[0] += " WHERE ERS_USERNAME = '" + ers_username + "'";
 		}
 
 		ResultSet usersSet[] = new ResultSet[2];
@@ -36,6 +36,7 @@ public class EmployeeDAOImpl extends ConnectionUtil implements EmployeeDAO {
 		try {
 			while (usersSet[0].next()) {
 				usersSet[1] =  selectDB(command[1] + usersSet[0].getInt(7));
+				usersSet[1].next();
 				users.add(new Employee(usersSet[0].getInt(1), usersSet[0].getString(2), usersSet[0].getString(3),
 							usersSet[0].getString(4), usersSet[0].getString(5), usersSet[0].getString(6),
 							usersSet[0].getInt(7), usersSet[1].getString(1)));

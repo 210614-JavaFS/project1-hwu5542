@@ -48,7 +48,7 @@ public class FrontControllerServlet extends HttpServlet {
 				}
 			break;
 		
-			case "logout":
+			case "signOut":
 				employeeController.userLogout(request, response);
 			break;
 		
