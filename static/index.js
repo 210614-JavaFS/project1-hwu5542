@@ -54,6 +54,11 @@ async function login(){
     deleteLoginForm();
     let profileInfo = await response.json();
     document.getElementById("registerPrompt").innerHTML = profileInfo.user_role + " " + profileInfo.user_first_name + ", " + "please use the navbar to perform your desired actions.";
+    if (profileInfo.user_role == "Manager") {
+      managerService();
+    } else {
+      employeeService();
+    }
   } else {
     console.log("User login fail");
   }
@@ -110,4 +115,52 @@ function deleteLoginForm() {
   profileButton.onclick = profile;
   let signOutButton = document.getElementById("signOut");
   signOutButton.onclick = signOut;
+}
+
+async function managerService() {
+  let navbarService = document.getElementById("servicesPlaceHolder");
+
+  let managerServTag = document.createElement("a");
+  managerServTag.setAttribute("data-toggle", "dropdown");
+  managerServTag.setAttribute("class", "nav-item nav-link dropdown-toggle");
+  managerServTag.innerHTML = "Services";
+  navbarService.appendChild(managerServTag);
+
+  let managerServList = document.createElement("div");
+  managerServList.setAttribute("class", "dropdown-menu");
+  let managerServList1 = document.createElement("a");
+  managerServList1.setAttribute("class", "dropdown-item");
+  managerServList1.innerHTML = "View All Request";
+  let managerServList2 = document.createElement("a");
+  managerServList2.setAttribute("class", "dropdown-item");
+  managerServList2.innerHTML = "Process Request";
+  managerServList.appendChild(managerServList1);
+  managerServList.appendChild(managerServList2);
+  navbarService.appendChild(managerServList);
+}
+
+async function employeeService() {
+  let navbarService = document.getElementById("servicesPlaceHolder");
+
+  let managerServTag = document.createElement("a");
+  managerServTag.setAttribute("data-toggle", "dropdown");
+  managerServTag.setAttribute("class", "nav-item nav-link dropdown-toggle");
+  managerServTag.innerHTML = "Services";
+  navbarService.appendChild(managerServTag);
+
+  let managerServList = document.createElement("div");
+  managerServList.setAttribute("class", "dropdown-menu");
+  let managerServList1 = document.createElement("a");
+  managerServList1.setAttribute("class", "dropdown-item");
+  managerServList1.innerHTML = "View Past Tickets";
+  let managerServList2 = document.createElement("a");
+  managerServList2.setAttribute("class", "dropdown-item");
+  managerServList2.innerHTML = "View Pending Request";
+  let managerServList3 = document.createElement("a");
+  managerServList3.setAttribute("class", "dropdown-item");
+  managerServList3.innerHTML = "Submit New Request";
+  managerServList.appendChild(managerServList1);
+  managerServList.appendChild(managerServList2);
+  managerServList.appendChild(managerServList3);
+  navbarService.appendChild(managerServList);
 }
