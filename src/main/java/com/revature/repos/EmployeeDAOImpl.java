@@ -41,11 +41,11 @@ public class EmployeeDAOImpl extends ConnectionUtil implements EmployeeDAO {
 							(usersSet[0].getString(4) == null?"N/A":usersSet[0].getString(4)), (usersSet[0].getString(5) == null?"N/A":usersSet[0].getString(5)),
 							(usersSet[0].getString(6) == null?"N/A":usersSet[0].getString(6)), usersSet[0].getInt(7), usersSet[1].getString(1)));
 			}
+			return users;
 		} catch (SQLException e) {
 			System.err.println("Access Result Set Fail: " + e.getMessage());
 		}
-
-		return users;
+		return null;
 	}
 	
 
