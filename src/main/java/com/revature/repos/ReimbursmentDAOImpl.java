@@ -151,7 +151,7 @@ public class ReimbursmentDAOImpl extends ConnectionUtil implements ReimbursmentD
 				+ reimb.getReimb_amount() + ", '" + reimb.getReimb_description() + "', " + reimb.getReimb_receipt() + ", "
 				+ reimb.getReimb_author() + ", " + reimb.getReimb_status_id() + ", " + reimb.getReimb_type_id() + ")";
 		if (insertDB(command)) {
-			log.info("User " + ers_username + " made a new request for amount " + reimb.getReimb_amount() +".");
+			log.info("User " + ers_username + " made a new request for amount " + reimb.getReimb_amount()/100 +".");
 			return true;	
 		} else {
 			return false;

@@ -25,8 +25,6 @@ public class FrontControllerServlet extends HttpServlet {
 		
 		final String URL = request.getRequestURI().replace("/project1/", "");
 		
-		System.out.println(URL);
-		
 		String[] urlSections = URL.split("/");
 
 		if (request.getMethod().equals("POST")) {

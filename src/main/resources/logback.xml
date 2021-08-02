@@ -7,7 +7,7 @@
 	</appender>
 
 	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
-		<file>logs\\transactionLogs.txt</file>
+		<file>C:\\Bash\\project1-hwu5542\\logs\\reimbLogs.txt</file>
 		<append>true</append>
 		<encoder>
 			<pattern>%d{HH:mm MM-dd-yyyy} [%thread] %logger{36} %msg%n</pattern>
