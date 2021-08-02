@@ -58,7 +58,7 @@ public class FrontControllerServlet extends HttpServlet {
 		
 			case "employee":
 				if (urlSections[1].equals("submit")) {
-					if (urlSections[2].equals("type")) {
+					if (urlSections.length > 2) {
 						reimbursmentController.getReimbType(request, response);						
 					} else {
 						reimbursmentController.submitRequest(request, response);

@@ -293,7 +293,7 @@ async function processRequest(){
       td.innerText = reimbGroup[reimbIndex].reimb_id;
       tr.appendChild(td);
       td = document.createElement("td");
-      td.innerText = reimbGroup[reimbIndex].reimb_amount;
+      td.innerText = reimbGroup[reimbIndex].reimb_amount / 100;
       tr.appendChild(td);
       td = document.createElement("td");
       td.innerText = reimbGroup[reimbIndex].reimb_submitted;
@@ -520,7 +520,7 @@ async function printTable(urlAttribute){
       td.innerText = reimbGroup[reimbIndex].reimb_id;
       tr.appendChild(td);
       td = document.createElement("td");
-      td.innerText = reimbGroup[reimbIndex].reimb_amount;
+      td.innerText = reimbGroup[reimbIndex].reimb_amount / 100;
       tr.appendChild(td);
       td = document.createElement("td");
       td.innerText = reimbGroup[reimbIndex].reimb_submitted;
@@ -568,6 +568,7 @@ async function submitNewRequest(){
     let pageFrontContainer = document.getElementById("pageFrontContainer");
     pageFrontContainer.innerHTML = "<br><h2>Create Request</h2><br><br>";
     let requestForm = document.createElement("form");
+    requestForm.setAttribute("method", "post");
   
     let formGroup1 = document.createElement("div");
     formGroup1.setAttribute("class", "form-group col-xs-6");
@@ -653,6 +654,7 @@ async function submitNewRequest(){
     pageFrontContainer.appendChild(requestForm);
 
     let createRequestButton = document.getElementById("createRequestButton");
+    createRequestButton.onclick = submitRequest;
   } else {
     console.log("Connect to server fail.");
   }
@@ -663,4 +665,44 @@ async function submitNewRequest(){
     SelectOption.innerHTML = optionPrompt;
     return SelectOption;
   }
+}
+
+async function submitRequest(){
+  event.preventDefault();
+  let response = await fetch(URL + 'employee/submit', {
+    method:'POST',
+    body:JSON.stringify(getReimb())
+  });
+
+  if (response.status==201){
+    let pageFrontContainer = document.getElementById("pageFrontContainer");
+    pageFrontContainer.innerHTML = "<br><h2>Request Submitted !</h2><br><br>";
+  } else {
+    let pageFrontContainer = document.getElementById("pageFrontContainer");
+    pageFrontContainer.innerHTML = "<br><h2>Request Submit Ran Into Some Problem.</h2><br><br>";
+  }
+}
+
+
+function getReimb(){
+  let storeAmount = Math.trunc(document.getElementById("input_amount").value * 100);
+
+  let reimb_model = {
+    reimb_id:0,
+    reimb_amount:storeAmount,
+    reimb_submitted:"",
+    reimb_resolved:"",
+    reimb_description:document.getElementById("input_description").value,
+    reimb_receipt:false,
+    reimb_author:0,
+    reimb_resolver:0,
+    reimb_status_id:0,
+    reimb_type_id:document.getElementById("input_reimb_type").value,
+    reimb_author_usr:"",
+    reimb_resolver_usr:"",
+    reimb_status:"",
+    reimb_type:""
+  }
+
+  return reimb_model;
 }

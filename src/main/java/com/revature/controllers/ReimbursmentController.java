@@ -30,10 +30,11 @@ public class ReimbursmentController {
 	}
 	
 	public void submitRequest(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession(false);
 		
 		Reimbursment reimb = getJsonReimbursment(request);
 		
-		if (reimbursmentService.addReimbursment(reimb)) {
+		if (reimbursmentService.addReimbursment(reimb, session.getAttribute("ers_username").toString())) {
 			response.setStatus(201);
 		} else {
 			response.setStatus(406);
@@ -41,7 +42,7 @@ public class ReimbursmentController {
 	}
 	
 	public void pendingRequest(HttpServletRequest request, HttpServletResponse response) {
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
 		
 		List<Reimbursment> reimb = reimbursmentService.getPendingRequest(session.getAttribute("ers_username").toString());
 		
@@ -54,7 +55,7 @@ public class ReimbursmentController {
 	}
 	
 	public void pastRequest(HttpServletRequest request, HttpServletResponse response) {
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
 		
 		List<Reimbursment> reimb = reimbursmentService.getPastRequest(session.getAttribute("ers_username").toString());
 		

@@ -14,8 +14,8 @@ public class ReimbursmentService {
 		return reimbursmentDAO.getReimbType();
 	}
 	
-	public boolean addReimbursment(Reimbursment reimb) {
-		return reimbursmentDAO.addReimbursment(reimb);
+	public boolean addReimbursment(Reimbursment reimb, String ers_username) {
+		return reimbursmentDAO.addReimbursment(reimb, ers_username);
 	}
 
 	public List<Reimbursment> getPendingRequest(String ers_username) {
