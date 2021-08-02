@@ -17,11 +17,14 @@ public class ReimbursmentDAOImpl extends ConnectionUtil implements ReimbursmentD
 		return getReimbursmentList("");
 	}
 	
+	public List<Reimbursment> getPendingReimbursment() {
+		return getReimbursmentList(", ERS_REIMBURSMENT_STATUS WHERE ERS_REIMBURSMENT.REIMB_STATUS_ID=ERS_REIMBURSMENT_STATUS.REIMB_STATUS_ID AND REIMB_STATUS = 'pending'");
+	}
+	
 	public List<Reimbursment> getReimbursment(String ers_username, boolean pending_flag) {
-		String subCommand = ",ERS_USERS, ERS_REIMBURSMENT_STATUS WHERE ERS_USERNAME = '" + ers_username;  
-		if (pending_flag)
-			return getReimbursmentList(subCommand + "' AND REIMB_STATUS = 'pending'");
-		return getReimbursmentList(subCommand +  "' AND (REIMB_STATUS = 'approved' OR REIMB_STATUS = 'denied')");
+		String subCommand = ", ERS_REIMBURSMENT_STATUS WHERE ERS_REIMBURSMENT.REIMB_STATUS_ID=ERS_REIMBURSMENT_STATUS.REIMB_STATUS_ID AND REIMB_AUTHOR = '" + ers_username;  
+		if (pending_flag) return getReimbursmentList(subCommand + "' AND REIMB_STATUS = 'pending'");
+		return getReimbursmentList(subCommand +  "' AND REIMB_STATUS != 'pending'");
 	}
 	
 	private List<Reimbursment> getReimbursmentList(String subCommand) {
@@ -63,10 +66,15 @@ public class ReimbursmentDAOImpl extends ConnectionUtil implements ReimbursmentD
 	 
 	public boolean setReimbursment(String ers_username, int reimb_id, String status) {
 		try {
-			ResultSet resolverRS = selectDB("SELECT REIMB_ID FROM ERS_USERS WHERE ERS_USERNAME = '" + ers_username + "'");
+			ResultSet resolverRS = selectDB("SELECT ERS_USERS_ID FROM ERS_USERS WHERE ERS_USERNAME = '" + ers_username + "'");
 			ResultSet statusRS = selectDB("SELECT REIMB_STATUS_ID FROM ERS_REIMBURSMENT_STATUS WHERE REIMB_STATUS = '" + status + "'");
-			String command = "UPDATE ERS_REIMBURSMENT SET REIMB_RESOLVER = " + resolverRS.getInt(1) + ", REIMB_STATUS_ID = " + statusRS.getInt(1) + " WHERE REIMB_ID = " + reimb_id + " AND REIMB_STATUS_ID = " + status;
+			ResultSet pendingRS = selectDB("SELECT REIMB_STATUS_ID FROM ERS_REIMBURSMENT_STATUS WHERE REIMB_STATUS = 'pending'");
+			resolverRS.next();
+			statusRS.next();
+			pendingRS.next();
+			String command = "UPDATE ERS_REIMBURSMENT SET REIMB_RESOLVER = " + resolverRS.getInt(1) + ", REIMB_STATUS_ID = " + statusRS.getInt(1) + " WHERE REIMB_ID = " + reimb_id + " AND REIMB_STATUS_ID = " + pendingRS.getString(1);
 			updateDB(command);
+			return true;
 		} catch (SQLException e) {
 			System.out.println("SELECT Query Fail: " + e.getMessage());
 		} 
@@ -75,11 +83,15 @@ public class ReimbursmentDAOImpl extends ConnectionUtil implements ReimbursmentD
 	
 	public boolean setAllReimbursment(String ers_username, String status) {
 		try {
-			ResultSet resolverRS = selectDB("SELECT REIMB_ID FROM ERS_USERS WHERE ERS_USERNAME = '" + ers_username + "'");
+			ResultSet resolverRS = selectDB("SELECT ERS_USERS_ID FROM ERS_USERS WHERE ERS_USERNAME = '" + ers_username + "'");
 			ResultSet statusRS = selectDB("SELECT REIMB_STATUS_ID FROM ERS_REIMBURSMENT_STATUS WHERE REIMB_STATUS = '" + status + "'");
-			status = selectDB("SELECT REIMB_STATUS_ID FROM ERS_REIMBURSMENT_STATUS WHERE REIMB_STATUS = 'pending'").getString(1);
-			String command = "UPDATE ERS_REIMBURSMENT SET REIMB_RESOLVER = " + resolverRS.getInt(1) + ", REIMB_STATUS_ID = " + statusRS.getInt(1) + " WHERE REIMB_STATUS_ID = " + status;
+			ResultSet pendingRS = selectDB("SELECT REIMB_STATUS_ID FROM ERS_REIMBURSMENT_STATUS WHERE REIMB_STATUS = 'pending'");
+			resolverRS.next();
+			statusRS.next();
+			pendingRS.next();
+			String command = "UPDATE ERS_REIMBURSMENT SET REIMB_RESOLVER = " + resolverRS.getInt(1) + ", REIMB_STATUS_ID = " + statusRS.getInt(1) + " WHERE REIMB_STATUS_ID = " + pendingRS.getString(1);
 			updateDB(command);
+			return true;
 		} catch (SQLException e) {
 			System.out.println("SELECT Query Fail: " + e.getMessage());
 		} 
@@ -88,7 +100,7 @@ public class ReimbursmentDAOImpl extends ConnectionUtil implements ReimbursmentD
 	}
 	
 	public boolean addReimbursment(Reimbursment reimb) {
-		String command = "INSERT INTO ERS_REIMBURSMENT(REIMB_AMMOUNT, REIMB_DESCRIPTION, REIMB_RECEIPT, REIMB_AUTHOR, "
+		String command = "INSERT INTO ERS_REIMBURSMENT(REIMB_AMOUNT, REIMB_DESCRIPTION, REIMB_RECEIPT, REIMB_AUTHOR, "
 				+ "REIMB_RESOLVER, REIMB_STATUS_ID, REIMB_TYPE_ID) VALUES ("
 				+ reimb.getReimb_amount() + ", '" + reimb.getReimb_description() + "', " + reimb.getReimb_receipt() + ", "
 				+ reimb.getReimb_author() + ", " + reimb.getReimb_resolver() + ", " + reimb.getReimb_status_id() + ", "

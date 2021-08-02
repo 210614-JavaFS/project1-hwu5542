@@ -71,11 +71,20 @@ public class FrontControllerServlet extends HttpServlet {
 					financeManagerController.allRequest(request, response);
 				} else if (urlSections[1].equals("approve")) {
 					if (urlSections[2].equals("single")) {
-						financeManagerController.approveSingleRequest(request, response);
+						financeManagerController.approveSingleRequest(request, response, urlSections[3]);
 						
 					} else if (urlSections[2].equals("all")) {
 						financeManagerController.approveAllRequest(request, response);						
 					}
+				} else if (urlSections[1].equals("deny")) {
+					if (urlSections[2].equals("single")) {
+						financeManagerController.denySingleRequest(request, response, urlSections[3]);
+						
+					} else if (urlSections[2].equals("all")) {
+						financeManagerController.denyAllRequest(request, response);						
+					}
+				} else if (urlSections[1].equals("pending")) {
+					financeManagerController.pendingRequest(request, response);
 				}
 				break;
 			}

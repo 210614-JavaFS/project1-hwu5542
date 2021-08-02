@@ -25,6 +25,10 @@ public class ReimbursmentService {
 		return reimbursmentDAO.getAllReimbursment();
 	}
 	
+	public List<Reimbursment> getPendingRequest() {
+		return reimbursmentDAO.getPendingReimbursment();
+	}
+	
 	public boolean setPendingRequest(String ers_username, int reimb_id, String status) {
 		if (reimb_id == 0) return reimbursmentDAO.setAllReimbursment(ers_username, status);
 		return reimbursmentDAO.setReimbursment(ers_username, reimb_id, status);

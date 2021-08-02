@@ -1,5 +1,7 @@
 package com.revature.controllers;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,24 +25,55 @@ public class FinanceManagerController extends ReimbursmentController {
 		}
 	}
 	
-	public void approveAllRequest(HttpServletRequest request, HttpServletResponse response) {
-		HttpSession session = request.getSession(false);
-		String ers_username = session.getAttribute("ers_username").toString();
-		String status = session.getAttribute("reimb_status").toString();
-
-		if (reimbursmentService.setPendingRequest(ers_username, 0, status)) {
+	public void pendingRequest(HttpServletRequest request, HttpServletResponse response) {
+		List<Reimbursment> reimb = reimbursmentService.getPendingRequest();
+		
+		if (reimb != null) {
+			setJsonReimbursment(reimb, response);
 			response.setStatus(201);
 		} else {
 			response.setStatus(406);
 		}
 	}
 	
-	public void approveSingleRequest(HttpServletRequest request, HttpServletResponse response) {
+	public void approveAllRequest(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(false);
 		String ers_username = session.getAttribute("ers_username").toString();
-		String status = session.getAttribute("reimb_status").toString();
-		Reimbursment targetReimb = getJsonReimbursment(request);
-		if (reimbursmentService.setPendingRequest(ers_username, targetReimb.getReimb_id(), status)) {
+
+		if (reimbursmentService.setPendingRequest(ers_username, 0, "approved")) {
+			response.setStatus(201);
+		} else {
+			response.setStatus(406);
+		}
+	}
+	
+	public void denyAllRequest(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession(false);
+		String ers_username = session.getAttribute("ers_username").toString();
+		
+		if (reimbursmentService.setPendingRequest(ers_username, 0, "denied")) {
+			response.setStatus(201);
+		} else {
+			response.setStatus(406);
+		}
+	}
+	
+	public void approveSingleRequest(HttpServletRequest request, HttpServletResponse response, String reimb_id) {
+		HttpSession session = request.getSession(false);
+		String ers_username = session.getAttribute("ers_username").toString();
+		
+		if (reimbursmentService.setPendingRequest(ers_username, Integer.parseInt(reimb_id), "approved")) {
+			response.setStatus(201);
+		} else {
+			response.setStatus(406);
+		}
+	}
+
+	public void denySingleRequest(HttpServletRequest request, HttpServletResponse response, String reimb_id) {
+		HttpSession session = request.getSession(false);
+		String ers_username = session.getAttribute("ers_username").toString();
+
+		if (reimbursmentService.setPendingRequest(ers_username, Integer.parseInt(reimb_id), "denied")) {
 			response.setStatus(201);
 		} else {
 			response.setStatus(406);

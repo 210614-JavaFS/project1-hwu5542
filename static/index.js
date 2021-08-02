@@ -164,6 +164,7 @@ async function managerService() {
   processRequestButton.onclick = processRequest;
 }
 
+
 async function employeeService() {
   let navbarService = document.getElementById("servicesPlaceHolder");
 
@@ -266,20 +267,280 @@ async function viewAllRequestFunc(){
 
     thead.appendChild(tr);
     tableAllRequest.appendChild(thead);
+
+    let tbody = document.createElement("tbody");
+    tr = document.createElement("tr");
+    let td = document.createElement("td");
+
+    let reimbGroup = await response.json();
+    
+    for (let reimbIndex in reimbGroup) {
+      td.innerText = reimbGroup[reimbIndex].reimb_id;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_amount;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_submitted;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_resolved;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_description;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_author_usr;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_resolver_usr;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_status;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_type;
+      tr.appendChild(td);
+      td = document.createElement("td");
+
+      tbody.appendChild(tr);
+      tr = document.createElement("tr");
+    }
+
+    tableAllRequest.appendChild(tbody);
     tableContainer.appendChild(tableAllRequest);
-
-    let profileInfoGroup = await response.json();
-
     pageFrontContainer.appendChild(tableContainer);
   } else {
     console.log("Get User Requests Fail");
   }
 }
 
-async function processRequest(){
 
+async function processRequest(){
+  let response = await fetch(URL + 'manager/pending', {
+    method:'POST'
+  });
+  if (response.status==201){
+    let pageFrontContainer = document.getElementById("pageFrontContainer");
+    pageFrontContainer.innerHTML = "<br><h2>Pending Request</h2><br><br>";
+
+    let tableContainer = document.createElement("div");
+    tableContainer.setAttribute("class", "table-responsive");
+    let tableAllRequest = document.createElement("table");
+    tableAllRequest.setAttribute("class", "table table-striped table-sm");
+    let thead = document.createElement("thead");
+    let tr = document.createElement("tr");
+    
+    let th = document.createElement("th");
+    th.setAttribute("scope","col");
+    th.innerText = "Reimb ID";
+    tr.appendChild(th);
+
+    th = document.createElement("th");
+    th.setAttribute("scope","col");
+    th.innerText = "Reimb Amount";
+    tr.appendChild(th);
+
+    th = document.createElement("th");
+    th.setAttribute("scope","col");
+    th.innerText = "Submit Time";
+    tr.appendChild(th);
+
+    th = document.createElement("th");
+    th.setAttribute("scope","col");
+    th.innerText = "Resolved Time";
+    tr.appendChild(th);
+
+    th = document.createElement("th");
+    th.setAttribute("scope","col");
+    th.innerText = "Description";
+    tr.appendChild(th);
+
+    th = document.createElement("th");
+    th.setAttribute("scope","col");
+    th.innerText = "Author";
+    tr.appendChild(th);
+
+    th = document.createElement("th");
+    th.setAttribute("scope","col");
+    th.innerText = "Resolver";
+    tr.appendChild(th);
+
+    th = document.createElement("th");
+    th.setAttribute("scope","col");
+    th.innerText = "Status";
+    tr.appendChild(th);
+
+    th = document.createElement("th");
+    th.setAttribute("scope","col");
+    th.innerText = "Type";
+    tr.appendChild(th);
+    
+    th = document.createElement("th");
+    th.setAttribute("scope","col");
+    th.innerText = "Process";
+    tr.appendChild(th);
+
+    thead.appendChild(tr);
+    tableAllRequest.appendChild(thead);
+
+    let tbody = document.createElement("tbody");
+    tr = document.createElement("tr");
+    let td = document.createElement("td");
+    let tableCheckbox = document.createElement("input");
+
+    let reimbGroup = await response.json();
+
+    let i = 0;
+
+    for (let reimbIndex in reimbGroup) {
+      td.innerText = reimbGroup[reimbIndex].reimb_id;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_amount;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_submitted;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_resolved;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_description;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_author_usr;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_resolver_usr;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_status;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_type;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      tableCheckbox.setAttribute("class", "form-check-input");
+      tableCheckbox.setAttribute("type", "checkbox");
+      tableCheckbox.setAttribute("id", "reimb_checkbox_"+i++);
+      tableCheckbox.setAttribute("value", reimbGroup[reimbIndex].reimb_id);
+      td.appendChild(tableCheckbox);
+      tr.appendChild(td);
+      td = document.createElement("td");
+      tableCheckbox = document.createElement("input");
+
+      tbody.appendChild(tr);
+      tr = document.createElement("tr");
+    }
+
+    let tableProcess = document.createElement("button");
+    tableProcess.setAttribute("id", "approveAll");
+    tableProcess.setAttribute("type", "submit");
+    tableProcess.setAttribute("class", "btn btn-primary");
+    tableProcess.innerHTML = "Approve All";
+    td.appendChild(tableProcess);
+    tr.appendChild(td);
+    td = document.createElement("td");
+
+    tableProcess = document.createElement("button");
+    tableProcess.setAttribute("id", "denyAll");
+    tableProcess.setAttribute("type", "submit");
+    tableProcess.setAttribute("class", "btn btn-primary");
+    tableProcess.innerHTML = "Deny All";
+    td.appendChild(tableProcess);
+    tr.appendChild(td);
+    td = document.createElement("td");
+
+    tableProcess = document.createElement("button");
+    tableProcess.setAttribute("id", "approve");
+    tableProcess.setAttribute("type", "submit");
+    tableProcess.setAttribute("class", "btn btn-primary");
+    tableProcess.innerHTML = "Approve Checked";
+    td.appendChild(tableProcess);
+    tr.appendChild(td);
+    td = document.createElement("td");
+
+    tableProcess = document.createElement("button");
+    tableProcess.setAttribute("id", "deny");
+    tableProcess.setAttribute("type", "submit");
+    tableProcess.setAttribute("class", "btn btn-primary");
+    tableProcess.innerHTML = "Deny Checked";
+    td.appendChild(tableProcess);
+    tr.appendChild(td);
+
+    tbody.appendChild(tr);
+
+    tableAllRequest.appendChild(tbody);
+    tableContainer.appendChild(tableAllRequest);
+
+    pageFrontContainer.appendChild(tableContainer);
+
+    let tableApproveAllButton = document.getElementById("approveAll");
+    tableApproveAllButton.onclick = approveAllRequest;
+    let tableDenyAllButton = document.getElementById("denyAll");
+    tableDenyAllButton.onclick = denyAllRequest;
+    let tableApproveButton = document.getElementById("approve");
+    tableApproveButton.onclick = approveRequest;
+    let tableDenyButton = document.getElementById("deny");
+    tableDenyButton.onclick = denyRequest;
+
+  } else {
+    console.log("Get User Requests Fail");
+  }
 }
 
+async function approveAllRequest(){
+  let response = await fetch(URL + 'manager/approve/all', {
+    method:'POST'
+  });
+  if (response.status==201){
+    viewAllRequestFunc();
+  }
+}
+
+async function denyAllRequest(){
+  let response = await fetch(URL + 'manager/deny/all', {
+    method:'POST'
+  });
+  if (response.status==201){
+    viewAllRequestFunc();
+  }
+}
+
+async function approveRequest(){
+  let i = 0;
+  let response = null;
+  let reimbIdInprocess = document.getElementById("reimb_checkbox_"+i++);
+  while (reimbIdInprocess != null) {
+    if (reimbIdInprocess.checked) {
+      response = await fetch(URL + 'manager/approve/single/' + reimbIdInprocess.getAttribute("value"), {
+        method:'POST'
+      });
+    }
+    reimbIdInprocess = document.getElementById("reimb_checkbox_"+i++);
+  }
+  if (response.status==201){
+    processRequest();
+  }
+}
+
+async function denyRequest(){
+  let i = 0;
+  let response = null;
+  let reimbIdInprocess = document.getElementById("reimb_checkbox_"+i++);
+  while (reimbIdInprocess != null) {
+    if (reimbIdInprocess.checked) {
+      response = await fetch(URL + 'manager/deny/single/' + reimbIdInprocess.getAttribute("value"), {
+        method:'POST'
+      });
+    }
+    reimbIdInprocess = document.getElementById("reimb_checkbox_"+i++);
+  }
+  if (response.status==201){
+    processRequest();
+  }
+}
 
 async function viewPastTickets(){
 
