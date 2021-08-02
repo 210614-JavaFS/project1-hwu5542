@@ -2,12 +2,17 @@ package com.revature.services;
 
 import java.util.List;
 
+import com.revature.models.ReimbType;
 import com.revature.models.Reimbursment;
 import com.revature.repos.ReimbursmentDAO;
 import com.revature.repos.ReimbursmentDAOImpl;
 
 public class ReimbursmentService {
 	ReimbursmentDAO reimbursmentDAO = new ReimbursmentDAOImpl();
+	
+	public List<ReimbType> getReimbType() {
+		return reimbursmentDAO.getReimbType();
+	}
 	
 	public boolean addReimbursment(Reimbursment reimb) {
 		return reimbursmentDAO.addReimbursment(reimb);

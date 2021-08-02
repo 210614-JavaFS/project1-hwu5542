@@ -58,7 +58,11 @@ public class FrontControllerServlet extends HttpServlet {
 		
 			case "employee":
 				if (urlSections[1].equals("submit")) {
-					reimbursmentController.submitRequest(request, response);
+					if (urlSections[2].equals("type")) {
+						reimbursmentController.getReimbType(request, response);						
+					} else {
+						reimbursmentController.submitRequest(request, response);
+					}
 				} else if (urlSections[1].equals("pending")) {
 					reimbursmentController.pendingRequest(request, response);
 				} else if (urlSections[1].equals("past")) {

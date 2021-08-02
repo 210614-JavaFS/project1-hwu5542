@@ -1,6 +1,5 @@
 package com.revature.repos;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,12 +7,27 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.revature.models.ReimbType;
 import com.revature.models.Reimbursment;
 import com.revature.utils.ConnectionUtil;
 
 public class ReimbursmentDAOImpl extends ConnectionUtil implements ReimbursmentDAO {
 
 
+	public List<ReimbType> getReimbType() {
+		ArrayList<ReimbType> reimbT = new ArrayList<ReimbType>();
+		ResultSet typeRS = selectDB("SELECT * FROM ERS_REIMBURSMENT_TYPE");
+		try {
+			while (typeRS.next()) {
+				reimbT.add(new ReimbType(typeRS.getInt(1), typeRS.getString(2)));
+			}
+			return reimbT;
+		} catch (SQLException e) {
+			System.err.println("Select From Database Fail" + e.getMessage());
+		}
+		return null;
+	}
+	
 	public List<Reimbursment> getAllReimbursment() {
 		return getReimbursmentList("");
 	}

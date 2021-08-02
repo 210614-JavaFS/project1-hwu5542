@@ -558,5 +558,109 @@ async function printTable(urlAttribute){
 }
 
 async function submitNewRequest(){
+  let response = await fetch(URL + 'employee/submit/type', {
+    method:'POST'
+  });
 
+  if (response.status==201){
+    let reimbTypeGroup = await response.json();
+
+    let pageFrontContainer = document.getElementById("pageFrontContainer");
+    pageFrontContainer.innerHTML = "<br><h2>Create Request</h2><br><br>";
+    let requestForm = document.createElement("form");
+  
+    let formGroup1 = document.createElement("div");
+    formGroup1.setAttribute("class", "form-group col-xs-6");
+    let formGroup1Label = document.createElement("label");
+    formGroup1Label.setAttribute("for", "REIMB_AMOUNT");
+    let formGroup1LabelH = document.createElement("h4");
+    formGroup1LabelH.innerText = "Reimbursment Amount";
+    let formGroup1Input = document.createElement("input");
+    formGroup1Input.setAttribute("type", "text");
+    formGroup1Input.setAttribute("class", "form-control");
+    formGroup1Input.setAttribute("name", "input_amount");
+    formGroup1Input.setAttribute("id", "input_amount");
+    formGroup1Input.setAttribute("placeholder", "999.99");
+    formGroup1Input.setAttribute("title", "enter your desired amount to reimburse");
+    formGroup1Label.appendChild(formGroup1LabelH);
+    formGroup1.appendChild(formGroup1Label);
+    formGroup1.appendChild(formGroup1Input);
+    requestForm.appendChild(formGroup1);
+
+    let formGroup2 = document.createElement("div");
+    formGroup2.setAttribute("class", "form-group col-xs-6");
+    let formGroup2Label = document.createElement("label");
+    formGroup2Label.setAttribute("for", "REIMB_DESCRIPTION");
+    let formGroup2LabelH = document.createElement("h4");
+    formGroup2LabelH.innerText = "Reimbursment Description";
+    let formGroup2Input = document.createElement("input");
+    formGroup2Input.setAttribute("type", "text");
+    formGroup2Input.setAttribute("class", "form-control");
+    formGroup2Input.setAttribute("name", "input_description");
+    formGroup2Input.setAttribute("id", "input_description");
+    formGroup2Input.setAttribute("placeholder", "Short description for reimbursement.");
+    formGroup2Input.setAttribute("title", "enter the reason you requesting reimbursement");
+    formGroup2Label.appendChild(formGroup2LabelH);
+    formGroup2.appendChild(formGroup2Label);
+    formGroup2.appendChild(formGroup2Input);
+    requestForm.appendChild(formGroup2);
+
+    let formGroup3 = document.createElement("div");
+    formGroup3.setAttribute("class", "form-group col-xs-6");
+    let formGroup3Label = document.createElement("label");
+    formGroup3Label.setAttribute("for", "REIMB_TYPE");
+    let formGroup3LabelH = document.createElement("h4");
+    formGroup3LabelH.innerText = "Reimbursment Type";
+
+    let formGroup3Select = document.createElement("select");
+    formGroup3Select.setAttribute("class", "form-control");
+    formGroup3Select.setAttribute("name", "input_reimb_type");
+    formGroup3Select.setAttribute("id", "input_reimb_type");
+
+    let formGroup3SelectOption1 = document.createElement("option");
+    formGroup3SelectOption1.setAttribute("selected", true);
+    formGroup3SelectOption1.innerHTML = "Make Selection";
+    formGroup3Select.appendChild(formGroup3SelectOption1);
+
+    for (let reimbTypeIndex in reimbTypeGroup) {
+      formGroup3Select.appendChild(appendSelectOption(reimbTypeGroup[reimbTypeIndex].reimb_type_id, reimbTypeGroup[reimbTypeIndex].reimb_type));
+    }
+
+    formGroup3Label.appendChild(formGroup3LabelH);
+    formGroup3.appendChild(formGroup3Label);
+    formGroup3.appendChild(formGroup3Select);
+    requestForm.appendChild(formGroup3);
+
+    let formGroup4 = document.createElement("div");
+    formGroup4.setAttribute("class", "form-group col-xs-12");
+    formGroup4.innerHTML = "<br>";
+    let formGroup4Submit = document.createElement("button");
+    formGroup4Submit.setAttribute("class", "btn btn-lg btn-success");
+    formGroup4Submit.setAttribute("id", "createRequestButton");
+    formGroup4Submit.setAttribute("type", "submit");
+    formGroup4Submit.innerText = "Create";  
+    let formGroup4Reset = document.createElement("button");
+    formGroup4Reset.setAttribute("class", "btn btn-lg");  
+    formGroup4Reset.setAttribute("type", "reset");
+    formGroup4Reset.innerHTML = "Reset";
+    let formGroup4ResetI = document.createElement("i");
+    formGroup4ResetI.setAttribute("class", "glyphicon glyphicon-repeat")
+    formGroup4Reset.appendChild(formGroup4ResetI);
+    formGroup4.appendChild(formGroup4Submit);
+    formGroup4.appendChild(formGroup4Reset);
+    requestForm.appendChild(formGroup4);
+
+    pageFrontContainer.appendChild(requestForm);
+
+    let createRequestButton = document.getElementById("createRequestButton");
+  } else {
+    console.log("Connect to server fail.");
+  }
+
+  function appendSelectOption(optionvalue, optionPrompt) {
+    let SelectOption = document.createElement("option");
+    SelectOption.setAttribute("value", optionvalue);
+    SelectOption.innerHTML = optionPrompt;
+    return SelectOption;
+  }
 }

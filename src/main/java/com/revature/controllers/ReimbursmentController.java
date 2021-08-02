@@ -9,12 +9,25 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.models.ReimbType;
 import com.revature.models.Reimbursment;
 import com.revature.services.ReimbursmentService;
 
 public class ReimbursmentController {
 	private static ReimbursmentService reimbursmentService = new ReimbursmentService();
 	private static ObjectMapper objectMapper = new ObjectMapper();
+	
+	public void getReimbType(HttpServletRequest request, HttpServletResponse response) {
+
+		List<ReimbType> reimbT = reimbursmentService.getReimbType();
+		
+		if (reimbT != null) {
+			setJsonReimbType(reimbT, response);
+			response.setStatus(201);
+		} else {
+			response.setStatus(406);
+		}
+	}
 	
 	public void submitRequest(HttpServletRequest request, HttpServletResponse response) {
 		
@@ -62,6 +75,15 @@ public class ReimbursmentController {
 		}
 	}
 	
+	public void setJsonReimbType(List<ReimbType> reimbT, HttpServletResponse response) {
+		try {
+			String json = objectMapper.writeValueAsString(reimbT);
+			response.getWriter().print(json);
+		} catch (IOException e) {
+			System.err.println("Writing Response Fail" + e.getMessage());
+		}
+	}
+
 	public Reimbursment getJsonReimbursment(HttpServletRequest request) {
 
 		String body;
