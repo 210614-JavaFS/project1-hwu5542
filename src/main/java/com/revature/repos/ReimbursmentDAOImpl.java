@@ -7,12 +7,16 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.revature.models.ReimbType;
 import com.revature.models.Reimbursment;
 import com.revature.utils.ConnectionUtil;
 
 public class ReimbursmentDAOImpl extends ConnectionUtil implements ReimbursmentDAO {
 
+	private Logger log = LoggerFactory.getLogger(ReimbursmentDAOImpl.class);
 
 	public List<ReimbType> getReimbType() {
 		ArrayList<ReimbType> reimbT = new ArrayList<ReimbType>();
@@ -77,7 +81,6 @@ public class ReimbursmentDAOImpl extends ConnectionUtil implements ReimbursmentD
 				for (int i=1; i<5; i++) {
 					reimbSet[i].next();
 				}
-				System.out.println(reimbSet[1].getString(1) + reimbSet[2].getString(1) + reimbSet[3].getString(1) + reimbSet[4].getString(1));
 
 				reimb.add(new Reimbursment(reimbSet[0].getInt(1), reimbSet[0].getInt(2), reimbSet[0].getString(3),
 						  reimbSet[0].getString(4),	reimbSet[0].getString(5), reimbSet[0].getBoolean(6),
@@ -103,6 +106,7 @@ public class ReimbursmentDAOImpl extends ConnectionUtil implements ReimbursmentD
 			pendingRS.next();
 			String command = "UPDATE ERS_REIMBURSMENT SET REIMB_RESOLVER = " + resolverRS.getInt(1) + ", REIMB_STATUS_ID = " + statusRS.getInt(1) + ", REIMB_RESOLVED = CURRENT_TIMESTAMP WHERE REIMB_ID = " + reimb_id + " AND REIMB_STATUS_ID = " + pendingRS.getString(1);
 			updateDB(command);
+			log.info("User " + ers_username + " " + status + " a request by ID " + reimb_id + " .");
 			return true;
 		} catch (SQLException e) {
 			System.out.println("SELECT Query Fail: " + e.getMessage());
@@ -120,6 +124,7 @@ public class ReimbursmentDAOImpl extends ConnectionUtil implements ReimbursmentD
 			pendingRS.next();
 			String command = "UPDATE ERS_REIMBURSMENT SET REIMB_RESOLVER = " + resolverRS.getInt(1) + ", REIMB_STATUS_ID = " + statusRS.getInt(1) + ", REIMB_RESOLVED = CURRENT_TIMESTAMP WHERE REIMB_STATUS_ID = " + pendingRS.getString(1);
 			updateDB(command);
+			log.info("User " + ers_username + " " + status + " multiple requests.");
 			return true;
 		} catch (SQLException e) {
 			System.out.println("SELECT Query Fail: " + e.getMessage());
@@ -146,6 +151,7 @@ public class ReimbursmentDAOImpl extends ConnectionUtil implements ReimbursmentD
 				+ reimb.getReimb_amount() + ", '" + reimb.getReimb_description() + "', " + reimb.getReimb_receipt() + ", "
 				+ reimb.getReimb_author() + ", " + reimb.getReimb_status_id() + ", " + reimb.getReimb_type_id() + ")";
 		if (insertDB(command)) {
+			log.info("User " + ers_username + " made a new request for amount " + reimb.getReimb_amount() +".");
 			return true;	
 		} else {
 			return false;
