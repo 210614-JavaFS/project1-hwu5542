@@ -6,6 +6,8 @@ let loginButton = document.getElementById("loginButton");
 signUpButton.onclick = signUp;
 loginButton.onclick = login;
 
+autoLogin();
+
 function getUserCred(newUsername, newPassword, newFirstName = "", newLastName = "", newEmail = ""){
   let credential = {
 	ers_users_id:0,
@@ -553,5 +555,3 @@ async function viewPendingRequest(){
 async function submitNewRequest(){
 
 }
-
-autoLogin();

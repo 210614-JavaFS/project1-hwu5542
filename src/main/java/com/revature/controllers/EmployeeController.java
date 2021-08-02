@@ -84,8 +84,8 @@ public class EmployeeController {
 			user.setUser_role(session.getAttribute("user_role").toString());
 			String json = objectMapper.writeValueAsString(user);
 			response.getWriter().print(json);
+			response.setStatus(201);
 		}
-		response.setStatus(200);
 	}
 	
 	public void userLogout(HttpServletRequest request, HttpServletResponse response){
