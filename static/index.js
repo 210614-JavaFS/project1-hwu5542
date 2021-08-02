@@ -208,113 +208,7 @@ async function employeeService() {
 }
 
 async function viewAllRequestFunc(){
-  let response = await fetch(URL + 'manager/all', {
-    method:'POST'
-  });
-  if (response.status==201){
-    let pageFrontContainer = document.getElementById("pageFrontContainer");
-    pageFrontContainer.innerHTML = "<br><h2>All Requests</h2><br><br>";
-
-    let tableContainer = document.createElement("div");
-    tableContainer.setAttribute("class", "table-responsive");
-    let tableAllRequest = document.createElement("table");
-    tableAllRequest.setAttribute("class", "table table-striped table-sm");
-    let thead = document.createElement("thead");
-    let tr = document.createElement("tr");
-    
-    let th = document.createElement("th");
-    th.setAttribute("scope","col");
-    th.innerText = "Reimb ID";
-    tr.appendChild(th);
-
-    th = document.createElement("th");
-    th.setAttribute("scope","col");
-    th.innerText = "Reimb Amount";
-    tr.appendChild(th);
-
-    th = document.createElement("th");
-    th.setAttribute("scope","col");
-    th.innerText = "Submit Time";
-    tr.appendChild(th);
-
-    th = document.createElement("th");
-    th.setAttribute("scope","col");
-    th.innerText = "Resolved Time";
-    tr.appendChild(th);
-
-    th = document.createElement("th");
-    th.setAttribute("scope","col");
-    th.innerText = "Description";
-    tr.appendChild(th);
-
-    th = document.createElement("th");
-    th.setAttribute("scope","col");
-    th.innerText = "Author";
-    tr.appendChild(th);
-
-    th = document.createElement("th");
-    th.setAttribute("scope","col");
-    th.innerText = "Resolver";
-    tr.appendChild(th);
-
-    th = document.createElement("th");
-    th.setAttribute("scope","col");
-    th.innerText = "Status";
-    tr.appendChild(th);
-
-    th = document.createElement("th");
-    th.setAttribute("scope","col");
-    th.innerText = "Type";
-    tr.appendChild(th);
-
-    thead.appendChild(tr);
-    tableAllRequest.appendChild(thead);
-
-    let tbody = document.createElement("tbody");
-    tr = document.createElement("tr");
-    let td = document.createElement("td");
-
-    let reimbGroup = await response.json();
-    
-    for (let reimbIndex in reimbGroup) {
-      td.innerText = reimbGroup[reimbIndex].reimb_id;
-      tr.appendChild(td);
-      td = document.createElement("td");
-      td.innerText = reimbGroup[reimbIndex].reimb_amount;
-      tr.appendChild(td);
-      td = document.createElement("td");
-      td.innerText = reimbGroup[reimbIndex].reimb_submitted;
-      tr.appendChild(td);
-      td = document.createElement("td");
-      td.innerText = reimbGroup[reimbIndex].reimb_resolved;
-      tr.appendChild(td);
-      td = document.createElement("td");
-      td.innerText = reimbGroup[reimbIndex].reimb_description;
-      tr.appendChild(td);
-      td = document.createElement("td");
-      td.innerText = reimbGroup[reimbIndex].reimb_author_usr;
-      tr.appendChild(td);
-      td = document.createElement("td");
-      td.innerText = reimbGroup[reimbIndex].reimb_resolver_usr;
-      tr.appendChild(td);
-      td = document.createElement("td");
-      td.innerText = reimbGroup[reimbIndex].reimb_status;
-      tr.appendChild(td);
-      td = document.createElement("td");
-      td.innerText = reimbGroup[reimbIndex].reimb_type;
-      tr.appendChild(td);
-      td = document.createElement("td");
-
-      tbody.appendChild(tr);
-      tr = document.createElement("tr");
-    }
-
-    tableAllRequest.appendChild(tbody);
-    tableContainer.appendChild(tableAllRequest);
-    pageFrontContainer.appendChild(tableContainer);
-  } else {
-    console.log("Get User Requests Fail");
-  }
+  printTable('manager/all');
 }
 
 
@@ -545,11 +439,122 @@ async function denyRequest(){
 }
 
 async function viewPastTickets(){
-
+  printTable('employee/past');
 }
 
 async function viewPendingRequest(){
+  printTable('employee/pending');
+}
 
+async function printTable(urlAttribute){
+  let response = await fetch(URL + urlAttribute, {
+    method:'POST'
+  });
+
+  if (response.status==201){
+    let pageFrontContainer = document.getElementById("pageFrontContainer");
+    pageFrontContainer.innerHTML = "<br><h2>Past Tickets</h2><br><br>";
+
+    let tableContainer = document.createElement("div");
+    tableContainer.setAttribute("class", "table-responsive");
+    let tableAllRequest = document.createElement("table");
+    tableAllRequest.setAttribute("class", "table table-striped table-sm");
+    let thead = document.createElement("thead");
+    let tr = document.createElement("tr");
+    
+    let th = document.createElement("th");
+    th.setAttribute("scope","col");
+    th.innerText = "Reimb ID";
+    tr.appendChild(th);
+
+    th = document.createElement("th");
+    th.setAttribute("scope","col");
+    th.innerText = "Reimb Amount";
+    tr.appendChild(th);
+
+    th = document.createElement("th");
+    th.setAttribute("scope","col");
+    th.innerText = "Submit Time";
+    tr.appendChild(th);
+
+    th = document.createElement("th");
+    th.setAttribute("scope","col");
+    th.innerText = "Resolved Time";
+    tr.appendChild(th);
+
+    th = document.createElement("th");
+    th.setAttribute("scope","col");
+    th.innerText = "Description";
+    tr.appendChild(th);
+
+    th = document.createElement("th");
+    th.setAttribute("scope","col");
+    th.innerText = "Author";
+    tr.appendChild(th);
+
+    th = document.createElement("th");
+    th.setAttribute("scope","col");
+    th.innerText = "Resolver";
+    tr.appendChild(th);
+
+    th = document.createElement("th");
+    th.setAttribute("scope","col");
+    th.innerText = "Status";
+    tr.appendChild(th);
+
+    th = document.createElement("th");
+    th.setAttribute("scope","col");
+    th.innerText = "Type";
+    tr.appendChild(th);
+
+    thead.appendChild(tr);
+    tableAllRequest.appendChild(thead);
+
+    let tbody = document.createElement("tbody");
+    tr = document.createElement("tr");
+    let td = document.createElement("td");
+
+    let reimbGroup = await response.json();
+    
+    for (let reimbIndex in reimbGroup) {
+      td.innerText = reimbGroup[reimbIndex].reimb_id;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_amount;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_submitted;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_resolved;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_description;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_author_usr;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_resolver_usr;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_status;
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.innerText = reimbGroup[reimbIndex].reimb_type;
+      tr.appendChild(td);
+      td = document.createElement("td");
+
+      tbody.appendChild(tr);
+      tr = document.createElement("tr");
+    }
+
+    tableAllRequest.appendChild(tbody);
+    tableContainer.appendChild(tableAllRequest);
+    pageFrontContainer.appendChild(tableContainer);
+  } else {
+    console.log("Get User Requests Fail");
+  }
 }
 
 async function submitNewRequest(){

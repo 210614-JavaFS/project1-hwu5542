@@ -1,5 +1,6 @@
 package com.revature.repos;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,9 +23,16 @@ public class ReimbursmentDAOImpl extends ConnectionUtil implements ReimbursmentD
 	}
 	
 	public List<Reimbursment> getReimbursment(String ers_username, boolean pending_flag) {
-		String subCommand = ", ERS_REIMBURSMENT_STATUS WHERE ERS_REIMBURSMENT.REIMB_STATUS_ID=ERS_REIMBURSMENT_STATUS.REIMB_STATUS_ID AND REIMB_AUTHOR = '" + ers_username;  
-		if (pending_flag) return getReimbursmentList(subCommand + "' AND REIMB_STATUS = 'pending'");
-		return getReimbursmentList(subCommand +  "' AND REIMB_STATUS != 'pending'");
+		String subCommand = "";
+		try {
+			ResultSet userID = selectDB("SELECT ERS_USERS_ID FROM ERS_USERS WHERE ERS_USERNAME = '" + ers_username + "'");
+			userID.next();
+			subCommand = ", ERS_REIMBURSMENT_STATUS WHERE ERS_REIMBURSMENT.REIMB_STATUS_ID=ERS_REIMBURSMENT_STATUS.REIMB_STATUS_ID AND REIMB_AUTHOR = " + userID.getInt(1);
+		} catch (SQLException e) {
+			System.err.println("Select From Database Fail" + e.getMessage());
+		}
+		if (pending_flag) return getReimbursmentList(subCommand + " AND REIMB_STATUS = 'pending'");
+		return getReimbursmentList(subCommand +  " AND REIMB_STATUS != 'pending'");
 	}
 	
 	private List<Reimbursment> getReimbursmentList(String subCommand) {
