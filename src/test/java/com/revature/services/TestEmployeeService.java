@@ -36,7 +36,7 @@ public class TestEmployeeService {
 	
 	@Test
 	public void testGetEmployeeInValid() {
-		assertNull(employeeService.getEmployee(user.getErs_username()));
+		assertNull(employeeService.getEmployee(InvalidUser.getErs_username()));
 	}
 	
 	@Test
