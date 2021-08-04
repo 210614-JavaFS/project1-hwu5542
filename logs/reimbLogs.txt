@@ -1,1 +1,6 @@
 12:16 08-02-2021 [http-nio-8080-exec-7] c.revature.repos.ReimbursmentDAOImpl User 123 made a new request for amount 111110.
+14:05 08-02-2021 [http-nio-8080-exec-32] c.revature.repos.ReimbursmentDAOImpl User admin made a new request for amount 2312839.
+14:27 08-02-2021 [http-nio-8080-exec-32] c.revature.repos.ReimbursmentDAOImpl User qwe made a new request for amount 999999.
+14:28 08-02-2021 [http-nio-8080-exec-24] c.revature.repos.ReimbursmentDAOImpl User admin approved a request by ID 8 .
+14:28 08-02-2021 [http-nio-8080-exec-26] c.revature.repos.ReimbursmentDAOImpl User admin denied a request by ID 10 .
+14:28 08-02-2021 [http-nio-8080-exec-30] c.revature.repos.ReimbursmentDAOImpl User admin approved multiple requests.

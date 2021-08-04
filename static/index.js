@@ -156,14 +156,22 @@ async function managerService() {
   managerServList2.setAttribute("id", "processRequest");
   managerServList2.innerHTML = "Process Request";
 
+  let managerServList3 = document.createElement("button");
+  managerServList3.setAttribute("class", "dropdown-item");
+  managerServList3.setAttribute("id", "submitNewRequest");
+  managerServList3.innerHTML = "Submit New Request";
+
   managerServList.appendChild(managerServList1);
   managerServList.appendChild(managerServList2);
+  managerServList.appendChild(managerServList3);
   navbarService.appendChild(managerServList);
 
   let viewAllRequestButton = document.getElementById("viewAllRequest");
   viewAllRequestButton.onclick = viewAllRequestFunc;
   let processRequestButton = document.getElementById("processRequest");
   processRequestButton.onclick = processRequest;
+  let submitNewRequestButton = document.getElementById("submitNewRequest");
+  submitNewRequestButton.onclick = submitNewRequest;
 }
 
 
